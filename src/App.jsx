@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import { Analytics } from '@vercel/analytics/react'
+import { track } from '@vercel/analytics'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import './App.css'
 import { reviews } from './reviewsData'
 
@@ -260,6 +263,7 @@ const WHATSAPP_HREF = `https://wa.me/919065473333?text=${WHATSAPP_MSG}`
 
 function Navbar() {
   useScrollNavbar()
+  const handlePhoneClick = () => track('phone_call', { source: 'navbar' })
   return (
     <nav className="navbar" role="navigation" aria-label="Main navigation">
       <div className="navbar-logo">
@@ -269,7 +273,7 @@ function Navbar() {
           <span className="logo-sub">Wholesale Electrical</span>
         </div>
       </div>
-      <a href={PHONE_HREF} className="navbar-cta" aria-label={`Call ${PHONE}`}>
+      <a href={PHONE_HREF} className="navbar-cta" aria-label={`Call ${PHONE}`} onClick={handlePhoneClick}>
         <PhoneIcon />
         <span>{PHONE}</span>
       </a>
@@ -324,7 +328,7 @@ function Hero() {
           <p className="hero-hindi" lang="hi">एस. के. इलेक्ट्रॉनिक्स</p>
         </div>
         <div className="hero-right fade-in fade-in-delay-1" ref={useFadeIn()}>
-          <a href={PHONE_HREF} className="hero-phone">
+          <a href={PHONE_HREF} className="hero-phone" onClick={() => track('phone_call', { source: 'hero-display' })}>
             <PhoneIcon />
             <span>{PHONE}</span>
           </a>
@@ -335,13 +339,13 @@ function Hero() {
             हैवल्स, बजाज, एंकर, आरआर केबल, एलिका, हिंदवेयर, मोर्फी रिचर्ड्स और ग्रेटव्हाइट के अधिकृत वितरक।
           </p>
           <div className="hero-actions">
-            <a href={PHONE_HREF} className="btn btn-primary">
+            <a href={PHONE_HREF} className="btn btn-primary" onClick={() => track('phone_call', { source: 'hero-cta' })}>
               <PhoneIcon /> Call Now
             </a>
-            <a href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp">
+            <a href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp" onClick={() => track('whatsapp_click', { source: 'hero' })}>
               <WhatsAppIcon /> WhatsApp
             </a>
-            <a href={DIRECTIONS_URL} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+            <a href={DIRECTIONS_URL} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" onClick={() => track('get_directions', { source: 'hero' })}>
               <MapPinIcon /> Get Directions
             </a>
           </div>
@@ -783,6 +787,8 @@ function App() {
       </main>
       <Footer />
       <FloatingCTA />
+      <Analytics />
+      <SpeedInsights />
     </>
   )
 }
