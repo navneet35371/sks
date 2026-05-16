@@ -869,39 +869,60 @@ function Contact() {
 }
 
 function Footer() {
+  const navLinks = [
+    { href: '#home', label: 'Home' },
+    { href: '#products', label: 'Products' },
+    { href: '#brands', label: 'Brands' },
+    { href: '#gallery', label: 'Photos' },
+    { href: '#reviews', label: 'Reviews' },
+    { href: '#about', label: 'About' },
+  ]
+  
   return (
     <footer className="footer">
       <div className="footer-inner">
-        <div className="footer-brand">
-          <div className="footer-name">S. K. Electronics</div>
-          <div className="footer-hindi" lang="hi">एस. के. इलेक्ट्रॉनिक्स</div>
+        <div className="footer-grid">
+          <div className="footer-col footer-col-brand">
+            <div className="footer-logo">
+              <span className="footer-logo-text">S. K. Electronics</span>
+              <span className="footer-logo-hindi" lang="hi">एस. के. इलेक्ट्रॉनिक्स</span>
+            </div>
+            <p className="footer-tagline">Sitamarhi&apos;s trusted wholesale electrical distributor since 2005.</p>
+          </div>
+          
+          <nav className="footer-col footer-col-nav" aria-label="Footer navigation">
+            <h3 className="footer-col-title">Quick Links</h3>
+            <ul className="footer-nav-list">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} className="footer-nav-link">{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          
+          <div className="footer-col footer-col-contact">
+            <h3 className="footer-col-title">Contact</h3>
+            <div className="footer-contact-list">
+              <a href={PHONE_HREF} className="footer-contact-item">
+                <PhoneIcon />
+                <span>{PHONE}</span>
+              </a>
+              <div className="footer-contact-item">
+                <ClockIcon />
+                <span>10 AM - 8 PM, 7 days</span>
+              </div>
+              <address className="footer-contact-item footer-address-item">
+                <MapPinIcon />
+                <span>Gaushala Road, Ring Bandh Rd, Chakmahila, Sitamarhi, Bihar 843302</span>
+              </address>
+            </div>
+          </div>
         </div>
-        <div className="footer-contact">
-          <a href={PHONE_HREF} className="footer-phone">
-            <PhoneIcon />
-            <span>{PHONE}</span>
-          </a>
-          <address className="footer-address">
-            Gaushala Road, Ring Bandh Rd, Chakmahila, Sitamarhi, Bihar 843302
-          </address>
-        </div>
-        <nav className="footer-links" aria-label="Footer navigation">
-          <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#products">Products</a></li>
-            <li><a href="#brands">Brands</a></li>
-            <li><a href="#gallery">Photos</a></li>
-            <li><a href="#reviews">Reviews</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </nav>
+        
         <div className="footer-bottom">
           <p className="footer-copy">
             &copy; {new Date().getFullYear()} S. K. Electronics, Sitamarhi. All rights reserved.
-          </p>
-          <p className="footer-hours" lang="hi">
-            खुला 7 दिन / Open 7 days, 10 AM &ndash; 8 PM
           </p>
         </div>
       </div>
