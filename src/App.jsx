@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
 import { track } from '@vercel/analytics'
 import { SpeedInsights } from '@vercel/speed-insights/react'
@@ -9,41 +10,29 @@ const prefersReduced = typeof window !== 'undefined'
   ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
   : false
 
-const fadeObserver = prefersReduced ? null : new IntersectionObserver(
-  (entries) => {
-    for (const entry of entries) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible')
-        fadeObserver.unobserve(entry.target)
-      }
-    }
-  },
-  { threshold: 0.1 }
-)
-
-function useFadeIn() {
-  const ref = useRef(null)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    if (prefersReduced) {
-      el.classList.add('visible')
-      return
-    }
-    fadeObserver.observe(el)
-    return () => fadeObserver.unobserve(el)
-  }, [])
-  return ref
+/* ===== Animation Variants ===== */
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0 }
 }
 
-function useScrollNavbar() {
-  useEffect(() => {
-    const handler = () => {
-      document.querySelector('.navbar')?.classList.toggle('scrolled', window.scrollY > 50)
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 }
+}
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { opacity: 1, scale: 1 }
+}
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08
     }
-    window.addEventListener('scroll', handler, { passive: true })
-    return () => window.removeEventListener('scroll', handler)
-  }, [])
+  }
 }
 
 /* ===== SVG Icons ===== */
@@ -259,6 +248,66 @@ const PHONE_HREF = 'tel:+919065473333'
 const WHATSAPP_MSG = encodeURIComponent('Namaste! I would like to inquire about wholesale electrical products.')
 const WHATSAPP_HREF = `https://wa.me/919065473333?text=${WHATSAPP_MSG}`
 
+/* ===== Custom Hooks ===== */
+
+function useScrollNavbar() {
+  useEffect(() => {
+    const handler = () => {
+      document.querySelector('.navbar')?.classList.toggle('scrolled', window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handler, { passive: true })
+    return () => window.removeEventListener('scroll', handler)
+  }, [])
+}
+
+/* ===== Motion Components ===== */
+
+function MotionSection({ children, className, ...props }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-50px" })
+  
+  if (prefersReduced) {
+    return <section className={className} {...props}>{children}</section>
+  }
+  
+  return (
+    <motion.section
+      ref={ref}
+      className={className}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={fadeUp}
+      transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+      {...props}
+    >
+      {children}
+    </motion.section>
+  )
+}
+
+function MotionDiv({ children, className, delay = 0, ...props }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-30px" })
+  
+  if (prefersReduced) {
+    return <div className={className} {...props}>{children}</div>
+  }
+  
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={fadeUp}
+      transition={{ duration: 0.5, delay, ease: [0.25, 1, 0.5, 1] }}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
 /* ===== Components ===== */
 
 function Navbar() {
@@ -282,28 +331,41 @@ function Navbar() {
 }
 
 function Hero() {
+  const { scrollY } = useScroll()
+  const y = useTransform(scrollY, [0, 500], [0, 150])
+  const opacity = useTransform(scrollY, [0, 300], [1, 0])
+
   const brandLogos = [
-    { src: '/brands/havells.svg', slug: 'havells', x: '10%', y: '15%', size: '80px' },
-    { src: '/brands/bajaj.png', slug: 'bajaj', x: '85%', y: '12%', size: '70px' },
-    { src: '/brands/anchor.svg', slug: 'anchor', x: '20%', y: '78%', size: '65px' },
-    { src: '/brands/rrkabel.svg', slug: 'rrkabel', x: '75%', y: '72%', size: '75px' },
-    { src: '/brands/elica.png', slug: 'elica', x: '50%', y: '20%', size: '60px' },
-    { src: '/brands/hindware.svg', slug: 'hindware', x: '90%', y: '85%', size: '70px' },
-    { src: '/brands/morphy-richards.png', slug: 'morphy-richards', x: '15%', y: '50%', size: '80px' },
-    { src: '/brands/greatwhite.png', slug: 'greatwhite', x: '60%', y: '88%', size: '65px' },
-    { src: '/brands/havells.svg', slug: 'havells', x: '42%', y: '58%', size: '55px' },
-    { src: '/brands/anchor.svg', slug: 'anchor', x: '80%', y: '38%', size: '60px' },
+    { src: '/brands/havells.svg', slug: 'havells', x: '8%', y: '18%', size: '90px' },
+    { src: '/brands/bajaj.png', slug: 'bajaj', x: '88%', y: '15%', size: '75px' },
+    { src: '/brands/anchor.svg', slug: 'anchor', x: '18%', y: '75%', size: '70px' },
+    { src: '/brands/rrkabel.svg', slug: 'rrkabel', x: '78%', y: '70%', size: '80px' },
+    { src: '/brands/elica.png', slug: 'elica', x: '52%', y: '22%', size: '65px' },
+    { src: '/brands/hindware.svg', slug: 'hindware', x: '92%', y: '82%', size: '75px' },
+    { src: '/brands/morphy-richards.png', slug: 'morphy-richards', x: '12%', y: '48%', size: '85px' },
+    { src: '/brands/greatwhite.png', slug: 'greatwhite', x: '62%', y: '85%', size: '70px' },
+    { src: '/brands/havells.svg', slug: 'havells', x: '45%', y: '55%', size: '60px' },
+    { src: '/brands/anchor.svg', slug: 'anchor', x: '82%', y: '40%', size: '65px' },
   ]
 
   return (
     <section className="hero" id="home">
-      <div className="hero-bg-logos" aria-hidden="true">
+      <div className="hero-gradient-orb hero-gradient-orb-1" aria-hidden="true" />
+      <div className="hero-gradient-orb hero-gradient-orb-2" aria-hidden="true" />
+      <motion.div 
+        className="hero-bg-logos" 
+        aria-hidden="true"
+        style={prefersReduced ? {} : { y }}
+      >
         {brandLogos.map((logo, i) => (
-          <img
+          <motion.img
             key={`logo-${i}`}
             src={logo.src}
             alt=""
             data-light={LIGHT_LOGOS.has(logo.slug) ? 'true' : undefined}
+            initial={prefersReduced ? {} : { opacity: 0, scale: 0.8 }}
+            animate={prefersReduced ? {} : { opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 + i * 0.05, duration: 0.6 }}
             style={{
               position: 'absolute',
               left: logo.x,
@@ -313,9 +375,14 @@ function Hero() {
             }}
           />
         ))}
-      </div>
+      </motion.div>
       <div className="hero-inner">
-        <div className="hero-left fade-in" ref={useFadeIn()}>
+        <motion.div 
+          className="hero-left"
+          initial={prefersReduced ? {} : { opacity: 0, y: 30 }}
+          animate={prefersReduced ? {} : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+        >
           <div className="hero-eyebrow">
             <span className="hero-eyebrow-dot" />
             <span>Wholesale Electrical &middot; Sitamarhi &middot; Since 2017</span>
@@ -326,8 +393,14 @@ function Hero() {
             <span className="sr-only"> — Wholesale Electrical Distributor in Sitamarhi, Bihar</span>
           </h1>
           <p className="hero-hindi" lang="hi">एस. के. इलेक्ट्रॉनिक्स</p>
-        </div>
-        <div className="hero-right fade-in fade-in-delay-1" ref={useFadeIn()}>
+        </motion.div>
+        <motion.div 
+          className="hero-right"
+          initial={prefersReduced ? {} : { opacity: 0, y: 30 }}
+          animate={prefersReduced ? {} : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.15, ease: [0.25, 1, 0.5, 1] }}
+          style={prefersReduced ? {} : { opacity }}
+        >
           <a href={PHONE_HREF} className="hero-phone" onClick={() => track('phone_call', { source: 'hero-display' })}>
             <PhoneIcon />
             <span>{PHONE}</span>
@@ -339,15 +412,37 @@ function Hero() {
             हैवल्स, बजाज, एंकर, आरआर केबल, एलिका, हिंदवेयर, मोर्फी रिचर्ड्स और ग्रेटव्हाइट के अधिकृत वितरक।
           </p>
           <div className="hero-actions">
-            <a href={PHONE_HREF} className="btn btn-primary" onClick={() => track('phone_call', { source: 'hero-cta' })}>
+            <motion.a 
+              href={PHONE_HREF} 
+              className="btn btn-primary" 
+              onClick={() => track('phone_call', { source: 'hero-cta' })}
+              whileHover={prefersReduced ? {} : { scale: 1.02 }}
+              whileTap={prefersReduced ? {} : { scale: 0.98 }}
+            >
               <PhoneIcon /> Call Now
-            </a>
-            <a href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp" onClick={() => track('whatsapp_click', { source: 'hero' })}>
+            </motion.a>
+            <motion.a 
+              href={WHATSAPP_HREF} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn btn-whatsapp" 
+              onClick={() => track('whatsapp_click', { source: 'hero' })}
+              whileHover={prefersReduced ? {} : { scale: 1.02 }}
+              whileTap={prefersReduced ? {} : { scale: 0.98 }}
+            >
               <WhatsAppIcon /> WhatsApp
-            </a>
-            <a href={DIRECTIONS_URL} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" onClick={() => track('get_directions', { source: 'hero' })}>
+            </motion.a>
+            <motion.a 
+              href={DIRECTIONS_URL} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn btn-ghost" 
+              onClick={() => track('get_directions', { source: 'hero' })}
+              whileHover={prefersReduced ? {} : { scale: 1.02 }}
+              whileTap={prefersReduced ? {} : { scale: 0.98 }}
+            >
               <MapPinIcon /> Get Directions
-            </a>
+            </motion.a>
           </div>
           <div className="hero-rating">
             <span className="hero-rating-num">4.9</span>
@@ -356,7 +451,7 @@ function Hero() {
             </span>
             <span>160+ on Google</span>
           </div>
-        </div>
+        </motion.div>
       </div>
       <div className="hero-line-accent-bar" aria-hidden="true" />
     </section>
@@ -370,50 +465,59 @@ function TrustStrip() {
     { icon: <BoltIcon />, label: 'Wholesale Prices', detail: 'सबसे अच्छे थोक दाम' },
     { icon: <ClockIcon />, label: 'Open 7 Days', detail: '10 AM to 8 PM' },
   ]
+  
   return (
     <section className="trust-strip" aria-label="Trust signals">
-      <div className="trust-strip-inner fade-in" ref={useFadeIn()}>
+      <motion.div 
+        className="trust-strip-inner"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={staggerContainer}
+      >
         {items.map((item, i) => (
-          <div key={i} className="trust-item">
+          <motion.div 
+            key={i} 
+            className="trust-item"
+            variants={fadeUp}
+            transition={{ duration: 0.4 }}
+          >
             <div className="trust-item-icon" aria-hidden="true">{item.icon}</div>
             <div className="trust-item-body">
               <span className="trust-item-label">{item.label}</span>
               <span className="trust-item-detail" lang={item.detail.match(/[\u0900-\u097F]/) ? 'hi' : undefined}>{item.detail}</span>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
-  )
-}
-
-function FadeInRow({ delay, children, ...props }) {
-  const ref = useFadeIn()
-  return (
-    <div
-      ref={ref}
-      className={`product-row fade-in fade-in-delay-${delay}`}
-      {...props}
-    >
-      {children}
-    </div>
   )
 }
 
 function Products() {
   return (
     <section className="products" id="products" aria-labelledby="products-title">
-      <div className="products-header fade-in" ref={useFadeIn()}>
+      <MotionDiv className="products-header">
         <p className="section-label">What We Offer / हमारे उत्पाद</p>
         <h2 className="section-title" id="products-title">Our Products</h2>
         <p className="section-hindi" lang="hi">थोक मूल्य पर उपलब्ध</p>
-      </div>
-      <div className="products-list" role="list">
+      </MotionDiv>
+      <motion.div 
+        className="products-list" 
+        role="list"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={staggerContainer}
+      >
         {products.map((p, i) => (
-          <FadeInRow
+          <motion.div
             key={p.name}
-            delay={i + 1}
+            className="product-row"
             role="listitem"
+            variants={fadeUp}
+            transition={{ duration: 0.5 }}
+            whileHover={prefersReduced ? {} : { x: 8 }}
           >
             <div className="product-row-icon" aria-hidden="true">{p.icon}</div>
             <div className="product-row-body">
@@ -428,9 +532,9 @@ function Products() {
                 </div>
               ))}
             </div>
-          </FadeInRow>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }
@@ -438,14 +542,26 @@ function Products() {
 function Brands() {
   return (
     <section className="brands" id="brands" aria-labelledby="brands-title">
-      <div className="brands-header fade-in" ref={useFadeIn()}>
+      <MotionDiv className="brands-header">
         <p className="section-label">Our Brands / हमारे ब्रांड</p>
         <h2 className="section-title" id="brands-title">Authorised Distributor</h2>
         <p className="section-hindi" lang="hi">अधिकृत वितरक</p>
-      </div>
-      <div className="brands-grid fade-in fade-in-delay-1" ref={useFadeIn()}>
-        {brands.map(b => (
-          <div key={b.slug} className="brand-card">
+      </MotionDiv>
+      <motion.div 
+        className="brands-grid"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={staggerContainer}
+      >
+        {brands.map((b, i) => (
+          <motion.div 
+            key={b.slug} 
+            className="brand-card"
+            variants={scaleIn}
+            transition={{ duration: 0.4 }}
+            whileHover={prefersReduced ? {} : { y: -4, transition: { duration: 0.2 } }}
+          >
             <div className="brand-card-logo">
               <BrandLogo slug={b.slug} name={b.name} />
             </div>
@@ -456,16 +572,14 @@ function Brands() {
               </h3>
               <p className="brand-card-cats">{b.categories.join(' · ')}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }
 
 function Gallery() {
-  const headerRef = useFadeIn()
-  const viewerRef = useFadeIn()
   const photos = reviews
     .filter(r => r.images.length > 0)
     .flatMap(r => r.images.map(src => ({ src, name: r.name, date: r.date, avatar: r.avatar })))
@@ -480,22 +594,28 @@ function Gallery() {
 
   return (
     <section className="gallery" id="gallery" aria-labelledby="gallery-title">
-      <div className="fade-in" ref={headerRef}>
+      <MotionDiv>
         <p className="section-label">Photos / फ़ोटो</p>
         <h2 className="section-title" id="gallery-title">Customer Photos</h2>
         <p className="section-hindi" lang="hi">ग्राहक फ़ोटो</p>
-      </div>
-      <div className="gallery-viewer fade-in fade-in-delay-1" ref={viewerRef}>
+      </MotionDiv>
+      <MotionDiv className="gallery-viewer" delay={0.1}>
         <div className="gallery-main">
-          <img
-            src={photos[index].src}
-            alt={`${photos[index].name} review photo`}
-            loading="lazy"
-            width="800"
-            height="450"
-            key={index}
-            className="gallery-main-img"
-          />
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={index}
+              src={photos[index].src}
+              alt={`${photos[index].name} review photo`}
+              loading="lazy"
+              width="800"
+              height="450"
+              className="gallery-main-img"
+              initial={prefersReduced ? {} : { opacity: 0 }}
+              animate={prefersReduced ? {} : { opacity: 1 }}
+              exit={prefersReduced ? {} : { opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            />
+          </AnimatePresence>
           <div className="gallery-main-overlay">
             {photos[index].avatar && (
               <img src={photos[index].avatar} alt="" className="gallery-overlay-avatar" width="28" height="28" loading="lazy" />
@@ -505,37 +625,57 @@ function Gallery() {
           </div>
           {count > 1 && (
             <>
-              <button className="gallery-nav-btn gallery-prev" onClick={prev} aria-label="Previous photo">
+              <motion.button 
+                className="gallery-nav-btn gallery-prev" 
+                onClick={prev} 
+                aria-label="Previous photo"
+                whileHover={prefersReduced ? {} : { scale: 1.1 }}
+                whileTap={prefersReduced ? {} : { scale: 0.9 }}
+              >
                 <ChevronIcon dir="left" />
-              </button>
-              <button className="gallery-nav-btn gallery-next" onClick={next} aria-label="Next photo">
+              </motion.button>
+              <motion.button 
+                className="gallery-nav-btn gallery-next" 
+                onClick={next} 
+                aria-label="Next photo"
+                whileHover={prefersReduced ? {} : { scale: 1.1 }}
+                whileTap={prefersReduced ? {} : { scale: 0.9 }}
+              >
                 <ChevronIcon dir="right" />
-              </button>
+              </motion.button>
             </>
           )}
         </div>
         <div className="gallery-thumbs">
           {photos.map((p, i) => (
-            <button
+            <motion.button
               key={i}
               className={`gallery-thumb${i === index ? ' active' : ''}`}
               onClick={() => select(i)}
               aria-label={`Photo by ${p.name}`}
+              whileHover={prefersReduced ? {} : { scale: 1.05 }}
+              whileTap={prefersReduced ? {} : { scale: 0.95 }}
             >
               <img src={p.src} alt="" loading="lazy" />
-            </button>
+            </motion.button>
           ))}
         </div>
-      </div>
+      </MotionDiv>
     </section>
   )
 }
 
-function ReviewCard({ review }) {
+function ReviewCard({ review, index }) {
   const [expanded, setExpanded] = useState(false)
   const isLong = review.snippet.length > 120
+  
   return (
-    <div className="review-card">
+    <motion.div 
+      className="review-card"
+      variants={fadeUp}
+      transition={{ duration: 0.4 }}
+      whileHover={prefersReduced ? {} : { y: -4, transition: { duration: 0.2 } }}
+    >
       <div className="review-top">
         <div className="review-stars" aria-label={`${review.rating} out of 5 stars`}>
           {Array.from({ length: review.rating }).map((_, j) => (
@@ -566,7 +706,7 @@ function ReviewCard({ review }) {
         )}
         <span className="review-name">{review.name}</span>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -575,50 +715,64 @@ function Reviews() {
   const perPage = 6
   const totalPages = Math.ceil(reviews.length / perPage)
   const visible = reviews.slice(page * perPage, page * perPage + perPage)
+  
   return (
     <section className="reviews-section" id="reviews" aria-labelledby="reviews-title">
-      <div className="fade-in" ref={useFadeIn()}>
+      <MotionDiv>
         <p className="section-label">Customer Reviews / ग्राहक समीक्षा</p>
         <h2 className="section-title" id="reviews-title">What Customers Say</h2>
         <p className="section-hindi" lang="hi">ग्राहक क्या कहते हैं</p>
         <div className="reviews-count">{reviews.length} reviews &middot; 4.9</div>
-      </div>
-      <div className="reviews-grid">
+      </MotionDiv>
+      <motion.div 
+        className="reviews-grid"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={staggerContainer}
+        key={page}
+      >
         {visible.map((r, i) => (
-          <ReviewCard key={`${page}-${i}`} review={r} />
+          <ReviewCard key={`${page}-${i}`} review={r} index={i} />
         ))}
-      </div>
+      </motion.div>
       {totalPages > 1 && (
         <div className="reviews-pagination" role="navigation" aria-label="Review pagination">
-          <button
+          <motion.button
             className="pagination-btn"
             onClick={() => setPage(p => Math.max(0, p - 1))}
             disabled={page === 0}
             aria-label="Previous page"
+            whileHover={prefersReduced ? {} : { scale: 1.02 }}
+            whileTap={prefersReduced ? {} : { scale: 0.98 }}
           >
             <ChevronIcon dir="left" /> <span>पिछला / Previous</span>
-          </button>
+          </motion.button>
           <span className="pagination-info">Page {page + 1} of {totalPages}</span>
-          <button
+          <motion.button
             className="pagination-btn"
             onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
             disabled={page === totalPages - 1}
             aria-label="Next page"
+            whileHover={prefersReduced ? {} : { scale: 1.02 }}
+            whileTap={prefersReduced ? {} : { scale: 0.98 }}
           >
             <span>अगला / Next</span> <ChevronIcon dir="right" />
-          </button>
+          </motion.button>
         </div>
       )}
-      <div className="reviews-cta fade-in" ref={useFadeIn()}>
-        <a
+      <MotionDiv className="reviews-cta" delay={0.2}>
+        <motion.a
           href={REVIEWS_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-primary"
+          whileHover={prefersReduced ? {} : { scale: 1.02 }}
+          whileTap={prefersReduced ? {} : { scale: 0.98 }}
         >
           See all reviews on Google Maps / सभी समीक्षा देखें <ArrowRightIcon />
-        </a>
-      </div>
+        </motion.a>
+      </MotionDiv>
     </section>
   )
 }
@@ -627,7 +781,7 @@ function About() {
   return (
     <section className="about" id="about" aria-labelledby="about-title">
       <div className="about-inner">
-        <div className="about-left fade-in" ref={useFadeIn()}>
+        <MotionDiv className="about-left">
           <p className="section-label">About Us / हमारे बारे में</p>
           <h2 className="section-title" id="about-title">Visit Our Store</h2>
           <p className="section-hindi" lang="hi">हमारे स्टोर पर आएं</p>
@@ -641,16 +795,18 @@ function About() {
           <p className="about-body hindi" lang="hi">
             एस. के. इलेक्ट्रॉनिक्स गौशाला रोड, रिंग बांध रोड, चकमहिला, सीतामढ़ी में हैवल्स, बजाज इलेक्ट्रिकल्स, एंकर बाई पैनसोनिक, आरआर केबल, एलिका, हिंदवेयर, मोर्फी रिचर्ड्स और ग्रेटव्हाइट का अधिकृत वितरक है। हम बिहार भर के इलेक्ट्रीशियन, ठेकेदारों और खुदरा विक्रेताओं के लिए पंखे, एलईडी लाइटिंग, मॉड्यूलर स्विच, तार और केबल, किचन चिमनी, कुकटॉप और घरेलू उपकरण थोक मूल्य पर उपलब्ध कराते हैं।
           </p>
-          <a
+          <motion.a
             href={DIRECTIONS_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-dark"
+            whileHover={prefersReduced ? {} : { scale: 1.02 }}
+            whileTap={prefersReduced ? {} : { scale: 0.98 }}
           >
             <MapPinIcon /> Get Directions <ArrowRightIcon />
-          </a>
-        </div>
-        <div className="about-right fade-in fade-in-delay-1" ref={useFadeIn()}>
+          </motion.a>
+        </MotionDiv>
+        <MotionDiv className="about-right" delay={0.15}>
           <iframe
             src={MAPS_URL}
             allowFullScreen=""
@@ -666,44 +822,47 @@ function About() {
               Open in Google Maps
             </a>
           </div>
-        </div>
+        </MotionDiv>
       </div>
     </section>
   )
 }
 
 function Contact() {
+  const contactItems = [
+    { icon: <PhoneIcon />, value: <a href={PHONE_HREF}>{PHONE}</a>, label: 'Phone / फ़ोन' },
+    { icon: <MapPinIcon />, value: <a href={DIRECTIONS_URL} target="_blank" rel="noopener noreferrer">Gaushala Road, Ring Bandh Rd, Chakmahila, Sitamarhi</a>, label: 'Bihar 843302 / सीतामढ़ी, बिहार' },
+    { icon: <ClockIcon />, value: '10 AM to 8 PM', label: 'Open 7 days / सोम से रवि' },
+  ]
+  
   return (
     <section className="contact" id="contact" aria-labelledby="contact-title">
       <div className="contact-inner">
-        <div className="fade-in" ref={useFadeIn()}>
+        <MotionDiv>
           <p className="section-label">Get In Touch / संपर्क करें</p>
           <h2 className="section-title" id="contact-title">Contact Us</h2>
           <p className="section-hindi" lang="hi">फ़ोन करें या स्टोर आएं</p>
-        </div>
-        <div className="contact-grid">
-          <div className="contact-block fade-in fade-in-delay-1" ref={useFadeIn()}>
-            <div className="contact-block-icon"><PhoneIcon /></div>
-            <div className="contact-block-value">
-              <a href={PHONE_HREF}>{PHONE}</a>
-            </div>
-            <div className="contact-block-label">Phone / फ़ोन</div>
-          </div>
-          <div className="contact-block fade-in fade-in-delay-2" ref={useFadeIn()}>
-            <div className="contact-block-icon"><MapPinIcon /></div>
-            <div className="contact-block-value">
-              <a href={DIRECTIONS_URL} target="_blank" rel="noopener noreferrer">
-                Gaushala Road, Ring Bandh Rd, Chakmahila, Sitamarhi
-              </a>
-            </div>
-            <div className="contact-block-label">Bihar 843302 / सीतामढ़ी, बिहार</div>
-          </div>
-          <div className="contact-block fade-in fade-in-delay-3" ref={useFadeIn()}>
-            <div className="contact-block-icon"><ClockIcon /></div>
-            <div className="contact-block-value">10 AM to 8 PM</div>
-            <div className="contact-block-label">Open 7 days / सोम से रवि</div>
-          </div>
-        </div>
+        </MotionDiv>
+        <motion.div 
+          className="contact-grid"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={staggerContainer}
+        >
+          {contactItems.map((item, i) => (
+            <motion.div 
+              key={i} 
+              className="contact-block"
+              variants={fadeUp}
+              transition={{ duration: 0.4 }}
+            >
+              <div className="contact-block-icon">{item.icon}</div>
+              <div className="contact-block-value">{item.value}</div>
+              <div className="contact-block-label">{item.label}</div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   )
@@ -752,21 +911,47 @@ function Footer() {
 
 function FloatingCTA() {
   const [visible, setVisible] = useState(false)
+  
   useEffect(() => {
     const handler = () => setVisible(window.scrollY > 600)
     window.addEventListener('scroll', handler, { passive: true })
     return () => window.removeEventListener('scroll', handler)
   }, [])
-  if (!visible) return null
+  
   return (
-    <div className="floating-cta" aria-label="Quick contact actions">
-      <a href={PHONE_HREF} className="floating-cta-btn floating-cta-call" aria-label={`Call ${PHONE}`}>
-        <PhoneIcon />
-      </a>
-      <a href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer" className="floating-cta-btn floating-cta-whatsapp" aria-label="Chat on WhatsApp">
-        <WhatsAppIcon />
-      </a>
-    </div>
+    <AnimatePresence>
+      {visible && (
+        <motion.div 
+          className="floating-cta" 
+          aria-label="Quick contact actions"
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.9 }}
+          transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
+        >
+          <motion.a 
+            href={PHONE_HREF} 
+            className="floating-cta-btn floating-cta-call" 
+            aria-label={`Call ${PHONE}`}
+            whileHover={prefersReduced ? {} : { scale: 1.1 }}
+            whileTap={prefersReduced ? {} : { scale: 0.9 }}
+          >
+            <PhoneIcon />
+          </motion.a>
+          <motion.a 
+            href={WHATSAPP_HREF} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="floating-cta-btn floating-cta-whatsapp" 
+            aria-label="Chat on WhatsApp"
+            whileHover={prefersReduced ? {} : { scale: 1.1 }}
+            whileTap={prefersReduced ? {} : { scale: 0.9 }}
+          >
+            <WhatsAppIcon />
+          </motion.a>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
 
