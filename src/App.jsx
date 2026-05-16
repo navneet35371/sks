@@ -120,6 +120,12 @@ const ShieldIcon = () => (
   </svg>
 )
 
+const WhatsAppIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+  </svg>
+)
+
 /* ===== Data ===== */
 
 const products = [
@@ -242,11 +248,13 @@ function BrandLogo({ slug, name }) {
   )
 }
 
-const MAPS_URL = 'https://maps.google.com/maps?q=S+K+Electronics+Ring+Bandh+Road+Sitamarhi+Bihar&t=&z=15&ie=UTF8&iwloc=&output=embed'
+const MAPS_URL = 'https://maps.google.com/maps?q=S+K+Electronics+Gaushala+Road+Ring+Bandh+Rd+Chakmahila+Sitamarhi+Bihar&t=&z=15&ie=UTF8&iwloc=&output=embed'
 const DIRECTIONS_URL = 'https://maps.app.goo.gl/7ZJPWBfTbXs9MuMN6'
 const REVIEWS_URL = 'https://www.google.com/maps/place/S.+K.+Electronics/@26.5883622,85.4873171,17z/data=!4m8!3m7!1s0x39ecf12c7e6fa777:0xe2013697c9b54a21!8m2!3d26.5883574!4d85.489892!9m1!1b1!16s%2Fg%2F11wy5qq8fk'
 const PHONE = '+91 90654 73333'
 const PHONE_HREF = 'tel:+919065473333'
+const WHATSAPP_MSG = encodeURIComponent('Namaste! I would like to inquire about wholesale electrical products.')
+const WHATSAPP_HREF = `https://wa.me/919065473333?text=${WHATSAPP_MSG}`
 
 /* ===== Components ===== */
 
@@ -270,86 +278,18 @@ function Navbar() {
 }
 
 function Hero() {
-  const LIGHT_LOGOS = new Set(['elica', 'greatwhite'])
-
   const brandLogos = [
-    { src: '/brands/havells.svg', slug: 'havells', x: '8%', y: '12%', size: '90px' },
-    { src: '/brands/bajaj.png', slug: 'bajaj', x: '88%', y: '8%', size: '80px' },
-    { src: '/brands/anchor.svg', slug: 'anchor', x: '18%', y: '75%', size: '75px' },
-    { src: '/brands/rrkabel.svg', slug: 'rrkabel', x: '78%', y: '68%', size: '85px' },
-    { src: '/brands/elica.png', slug: 'elica', x: '52%', y: '18%', size: '70px' },
-    { src: '/brands/hindware.svg', slug: 'hindware', x: '92%', y: '82%', size: '80px' },
-    { src: '/brands/morphy-richards.png', slug: 'morphy-richards', x: '12%', y: '45%', size: '95px' },
-    { src: '/brands/greatwhite.png', slug: 'greatwhite', x: '62%', y: '88%', size: '75px' },
-    { src: '/brands/havells.svg', slug: 'havells', x: '45%', y: '55%', size: '65px' },
-    { src: '/brands/bajaj.png', slug: 'bajaj', x: '25%', y: '25%', size: '60px' },
-    { src: '/brands/anchor.svg', slug: 'anchor', x: '70%', y: '35%', size: '70px' },
-    { src: '/brands/rrkabel.svg', slug: 'rrkabel', x: '35%', y: '85%', size: '65px' },
-    { src: '/brands/elica.png', slug: 'elica', x: '82%', y: '45%', size: '60px' },
-    { src: '/brands/hindware.svg', slug: 'hindware', x: '5%', y: '88%', size: '70px' },
-    { src: '/brands/morphy-richards.png', slug: 'morphy-richards', x: '55%', y: '70%', size: '75px' },
-    { src: '/brands/greatwhite.png', slug: 'greatwhite', x: '40%', y: '30%', size: '55px' },
-    { src: '/brands/havells.svg', slug: 'havells', x: '95%', y: '50%', size: '60px' },
-    { src: '/brands/bajaj.png', slug: 'bajaj', x: '65%', y: '55%', size: '55px' },
-    { src: '/brands/anchor.svg', slug: 'anchor', x: '30%', y: '60%', size: '60px' },
-    { src: '/brands/rrkabel.svg', slug: 'rrkabel', x: '50%', y: '40%', size: '50px' },
-    { src: '/brands/havells.svg', slug: 'havells', x: '22%', y: '50%', size: '55px' },
-    { src: '/brands/greatwhite.png', slug: 'greatwhite', x: '75%', y: '22%', size: '60px' },
-    { src: '/brands/anchor.svg', slug: 'anchor', x: '85%', y: '55%', size: '65px' },
-    { src: '/brands/bajaj.png', slug: 'bajaj', x: '48%', y: '78%', size: '70px' },
-    { src: '/brands/rrkabel.svg', slug: 'rrkabel', x: '15%', y: '30%', size: '50px' },
+    { src: '/brands/havells.svg', slug: 'havells', x: '10%', y: '15%', size: '80px' },
+    { src: '/brands/bajaj.png', slug: 'bajaj', x: '85%', y: '12%', size: '70px' },
+    { src: '/brands/anchor.svg', slug: 'anchor', x: '20%', y: '78%', size: '65px' },
+    { src: '/brands/rrkabel.svg', slug: 'rrkabel', x: '75%', y: '72%', size: '75px' },
+    { src: '/brands/elica.png', slug: 'elica', x: '50%', y: '20%', size: '60px' },
+    { src: '/brands/hindware.svg', slug: 'hindware', x: '90%', y: '85%', size: '70px' },
+    { src: '/brands/morphy-richards.png', slug: 'morphy-richards', x: '15%', y: '50%', size: '80px' },
+    { src: '/brands/greatwhite.png', slug: 'greatwhite', x: '60%', y: '88%', size: '65px' },
+    { src: '/brands/havells.svg', slug: 'havells', x: '42%', y: '58%', size: '55px' },
+    { src: '/brands/anchor.svg', slug: 'anchor', x: '80%', y: '38%', size: '60px' },
   ]
-
-  const productIcons = [
-    { type: 'switch', x: '14%', y: '18%', size: '35px' },
-    { type: 'switch', x: '52%', y: '62%', size: '30px' },
-    { type: 'switch', x: '82%', y: '15%', size: '32px' },
-    { type: 'switch', x: '38%', y: '42%', size: '28px' },
-    { type: 'pipe', x: '24%', y: '82%', size: '40px' },
-    { type: 'pipe', x: '72%', y: '42%', size: '35px' },
-    { type: 'pipe', x: '92%', y: '35%', size: '30px' },
-    { type: 'wire', x: '8%', y: '65%', size: '45px' },
-    { type: 'wire', x: '62%', y: '32%', size: '38px' },
-    { type: 'wire', x: '42%', y: '92%', size: '35px' },
-    { type: 'wire', x: '78%', y: '78%', size: '32px' },
-  ]
-
-  const SwitchIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="4" y="4" width="16" height="16" rx="2" />
-      <circle cx="12" cy="12" r="3" />
-      <line x1="12" y1="2" x2="12" y2="4" />
-      <line x1="12" y1="20" x2="12" y2="22" />
-    </svg>
-  )
-
-  const PipeIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 12h6" />
-      <path d="M14 12h6" />
-      <circle cx="12" cy="12" r="2" />
-      <path d="M12 10v4" />
-      <path d="M4 8h4" />
-      <path d="M16 16h4" />
-    </svg>
-  )
-
-  const WireIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0" />
-      <circle cx="2" cy="12" r="1" fill="currentColor" />
-      <circle cx="22" cy="12" r="1" fill="currentColor" />
-    </svg>
-  )
-
-  const renderProductIcon = (type) => {
-    switch (type) {
-      case 'switch': return <SwitchIcon />
-      case 'pipe': return <PipeIcon />
-      case 'wire': return <WireIcon />
-      default: return null
-    }
-  }
 
   return (
     <section className="hero" id="home">
@@ -368,22 +308,6 @@ function Hero() {
               transform: 'translate(-50%, -50%)',
             }}
           />
-        ))}
-        {productIcons.map((icon, i) => (
-          <div
-            key={`product-${i}`}
-            className="hero-product-icon"
-            style={{
-              position: 'absolute',
-              left: icon.x,
-              top: icon.y,
-              width: icon.size,
-              height: icon.size,
-              transform: 'translate(-50%, -50%)',
-            }}
-          >
-            {renderProductIcon(icon.type)}
-          </div>
         ))}
       </div>
       <div className="hero-inner">
@@ -410,6 +334,12 @@ function Hero() {
             हैवल्स, बजाज, एंकर, आरआर केबल, एलिका, हिंदवेयर, मोर्फी रिचर्ड्स और ग्रेटव्हाइट के अधिकृत वितरक।
           </p>
           <div className="hero-actions">
+            <a href={PHONE_HREF} className="btn btn-primary">
+              <PhoneIcon /> Call Now
+            </a>
+            <a href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp">
+              <WhatsAppIcon /> WhatsApp
+            </a>
             <a href={DIRECTIONS_URL} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
               <MapPinIcon /> Get Directions
             </a>
@@ -452,6 +382,19 @@ function TrustStrip() {
   )
 }
 
+function FadeInRow({ delay, children, ...props }) {
+  const ref = useFadeIn()
+  return (
+    <div
+      ref={ref}
+      className={`product-row fade-in fade-in-delay-${delay}`}
+      {...props}
+    >
+      {children}
+    </div>
+  )
+}
+
 function Products() {
   return (
     <section className="products" id="products" aria-labelledby="products-title">
@@ -462,10 +405,9 @@ function Products() {
       </div>
       <div className="products-list" role="list">
         {products.map((p, i) => (
-          <div
+          <FadeInRow
             key={p.name}
-            className={`product-row fade-in fade-in-delay-${i + 1}`}
-            ref={useFadeIn()}
+            delay={i + 1}
             role="listitem"
           >
             <div className="product-row-icon" aria-hidden="true">{p.icon}</div>
@@ -481,7 +423,7 @@ function Products() {
                 </div>
               ))}
             </div>
-          </div>
+          </FadeInRow>
         ))}
       </div>
     </section>
@@ -516,40 +458,9 @@ function Brands() {
   )
 }
 
-function ImageCarousel({ images }) {
-  const [index, setIndex] = useState(0)
-  const count = images.length
-  if (count === 0) return null
-  const prev = () => setIndex((i) => (i - 1 + count) % count)
-  const next = () => setIndex((i) => (i + 1) % count)
-  return (
-    <div className="carousel">
-      <div className="carousel-track">
-        <img
-          src={images[index].src}
-          alt={images[index].alt}
-          loading="lazy"
-          key={index}
-        />
-      </div>
-      {count > 1 && (
-        <>
-          <button className="carousel-btn carousel-prev" onClick={prev} aria-label="Previous photo">
-            <ChevronIcon dir="left" />
-          </button>
-          <button className="carousel-btn carousel-next" onClick={next} aria-label="Next photo">
-            <ChevronIcon dir="right" />
-          </button>
-          <div className="carousel-counter">
-            {index + 1} / {count}
-          </div>
-        </>
-      )}
-    </div>
-  )
-}
-
 function Gallery() {
+  const headerRef = useFadeIn()
+  const viewerRef = useFadeIn()
   const photos = reviews
     .filter(r => r.images.length > 0)
     .flatMap(r => r.images.map(src => ({ src, name: r.name, date: r.date, avatar: r.avatar })))
@@ -564,12 +475,12 @@ function Gallery() {
 
   return (
     <section className="gallery" id="gallery" aria-labelledby="gallery-title">
-      <div className="fade-in" ref={useFadeIn()}>
+      <div className="fade-in" ref={headerRef}>
         <p className="section-label">Photos / फ़ोटो</p>
         <h2 className="section-title" id="gallery-title">Customer Photos</h2>
         <p className="section-hindi" lang="hi">ग्राहक फ़ोटो</p>
       </div>
-      <div className="gallery-viewer fade-in fade-in-delay-1" ref={useFadeIn()}>
+      <div className="gallery-viewer fade-in fade-in-delay-1" ref={viewerRef}>
         <div className="gallery-main">
           <img
             src={photos[index].src}
@@ -678,7 +589,7 @@ function Reviews() {
             disabled={page === 0}
             aria-label="Previous page"
           >
-            <ChevronIcon dir="left" /> Previous
+            <ChevronIcon dir="left" /> <span>पिछला / Previous</span>
           </button>
           <span className="pagination-info">Page {page + 1} of {totalPages}</span>
           <button
@@ -687,7 +598,7 @@ function Reviews() {
             disabled={page === totalPages - 1}
             aria-label="Next page"
           >
-            Next <ChevronIcon dir="right" />
+            <span>अगला / Next</span> <ChevronIcon dir="right" />
           </button>
         </div>
       )}
@@ -698,7 +609,7 @@ function Reviews() {
           rel="noopener noreferrer"
           className="btn btn-primary"
         >
-          See all reviews on Google Maps <ArrowRightIcon />
+          See all reviews on Google Maps / सभी समीक्षा देखें <ArrowRightIcon />
         </a>
       </div>
     </section>
@@ -715,13 +626,13 @@ function About() {
           <p className="section-hindi" lang="hi">हमारे स्टोर पर आएं</p>
           <p className="about-body">
             S. K. Electronics is an authorised distributor of Havells, Bajaj Electricals, Anchor by
-            Panasonic, RR Kabel, Elica, Hindware, Morphy Richards, and Greatwhite on Ring Bandh
-            Road, Sitamarhi. We stock ceiling fans, LED lighting, modular switches, wires and
+            Panasonic, RR Kabel, Elica, Hindware, Morphy Richards, and Greatwhite on Gaushala Road,
+            Ring Bandh Rd, Chakmahila, Sitamarhi. We stock ceiling fans, LED lighting, modular switches, wires and
             cables, kitchen chimneys, cooktops, and home appliances at wholesale prices for
             electricians, contractors, and retailers across Bihar.
           </p>
           <p className="about-body hindi" lang="hi">
-            एस. के. इलेक्ट्रॉनिक्स रिंग बांध रोड, सीतामढ़ी में हैवल्स, बजाज इलेक्ट्रिकल्स, एंकर बाई पैनसोनिक, आरआर केबल, एलिका, हिंदवेयर, मोर्फी रिचर्ड्स और ग्रेटव्हाइट का अधिकृत वितरक है। हम बिहार भर के इलेक्ट्रीशियन, ठेकेदारों और खुदरा विक्रेताओं के लिए पंखे, एलईडी लाइटिंग, मॉड्यूलर स्विच, तार और केबल, किचन चिमनी, कुकटॉप और घरेलू उपकरण थोक मूल्य पर उपलब्ध कराते हैं।
+            एस. के. इलेक्ट्रॉनिक्स गौशाला रोड, रिंग बांध रोड, चकमहिला, सीतामढ़ी में हैवल्स, बजाज इलेक्ट्रिकल्स, एंकर बाई पैनसोनिक, आरआर केबल, एलिका, हिंदवेयर, मोर्फी रिचर्ड्स और ग्रेटव्हाइट का अधिकृत वितरक है। हम बिहार भर के इलेक्ट्रीशियन, ठेकेदारों और खुदरा विक्रेताओं के लिए पंखे, एलईडी लाइटिंग, मॉड्यूलर स्विच, तार और केबल, किचन चिमनी, कुकटॉप और घरेलू उपकरण थोक मूल्य पर उपलब्ध कराते हैं।
           </p>
           <a
             href={DIRECTIONS_URL}
@@ -738,11 +649,11 @@ function About() {
             allowFullScreen=""
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="S. K. Electronics, Ring Bandh Road, Sitamarhi"
+            title="S. K. Electronics, Gaushala Road, Ring Bandh Rd, Sitamarhi"
           />
           <div className="about-map-fallback">
             <MapPinIcon />
-            <p>Ring Bandh Rd, Sitamarhi, Bihar 843302</p>
+            <p>Gaushala Road, Ring Bandh Rd, Chakmahila, Sitamarhi, Bihar 843302</p>
             <a href={DIRECTIONS_URL} target="_blank" rel="noopener noreferrer">
               Open in Google Maps
             </a>
@@ -814,6 +725,26 @@ function Footer() {
   )
 }
 
+function FloatingCTA() {
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const handler = () => setVisible(window.scrollY > 600)
+    window.addEventListener('scroll', handler, { passive: true })
+    return () => window.removeEventListener('scroll', handler)
+  }, [])
+  if (!visible) return null
+  return (
+    <div className="floating-cta" aria-label="Quick contact actions">
+      <a href={PHONE_HREF} className="floating-cta-btn floating-cta-call" aria-label={`Call ${PHONE}`}>
+        <PhoneIcon />
+      </a>
+      <a href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer" className="floating-cta-btn floating-cta-whatsapp" aria-label="Chat on WhatsApp">
+        <WhatsAppIcon />
+      </a>
+    </div>
+  )
+}
+
 function App() {
   return (
     <>
@@ -829,6 +760,7 @@ function App() {
         <Contact />
       </main>
       <Footer />
+      <FloatingCTA />
     </>
   )
 }

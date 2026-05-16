@@ -69,7 +69,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), padding 0.3s var(--ease-out);
+  transition: background 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
 }
 
 .navbar.scrolled {
@@ -183,26 +183,13 @@ body {
 
 .hero-bg-logos img {
   filter: brightness(0) invert(1);
-  opacity: 0.07;
+  opacity: 0.05;
   transition: opacity 0.3s ease;
 }
 
 .hero-bg-logos img[data-light="true"] {
   filter: brightness(0) invert(1) opacity(0.5);
-  opacity: 0.12;
-}
-
-.hero-product-icon {
-  color: oklch(0.95 0.01 175);
-  opacity: 0.05;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-product-icon svg {
-  width: 100%;
-  height: 100%;
+  opacity: 0.08;
 }
 
 .hero-inner {
@@ -1123,6 +1110,79 @@ body {
   flex-shrink: 0;
 }
 
+.btn-whatsapp {
+  background: #25D366;
+  color: oklch(0.98 0.005 175);
+}
+
+.btn-whatsapp:hover {
+  background: #20bd5a;
+  box-shadow: 0 4px 20px oklch(0.25 0.15 145 / 0.3);
+}
+
+.btn-whatsapp svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* ===== FLOATING CTA ===== */
+
+.floating-cta {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: floatIn 0.3s var(--ease-out);
+}
+
+@keyframes floatIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.floating-cta-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px oklch(0.18 0.012 55 / 0.2);
+  transition: transform 0.15s var(--ease-out), box-shadow 0.2s var(--ease-out);
+  text-decoration: none;
+}
+
+.floating-cta-btn:active {
+  transform: scale(0.93);
+}
+
+.floating-cta-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.floating-cta-call {
+  background: var(--gold);
+  color: oklch(0.18 0.04 80);
+}
+
+.floating-cta-call:hover {
+  box-shadow: 0 6px 24px oklch(0.72 0.15 80 / 0.35);
+}
+
+.floating-cta-whatsapp {
+  background: #25D366;
+  color: oklch(0.98 0.005 175);
+}
+
+.floating-cta-whatsapp:hover {
+  box-shadow: 0 6px 24px oklch(0.25 0.15 145 / 0.35);
+}
+
 /* ===== CONTACT ===== */
 
 .contact {
@@ -1500,8 +1560,9 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .pagination-btn span {
-    display: none;
+  .pagination-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.72rem;
   }
 
   .about {
@@ -1514,6 +1575,31 @@ body {
 
   .footer-links {
     gap: 1rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .floating-cta {
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  .floating-cta-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .floating-cta-btn svg {
+    width: 20px;
+    height: 20px;
   }
 }
 
