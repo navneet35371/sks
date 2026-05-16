@@ -968,9 +968,11 @@ function App() {
         <Gallery />
         <Reviews />
         <About />
-        <Contact />
       </main>
-      <Footer />
+      <div className="contact-footer-wrapper">
+        <Contact />
+        <Footer />
+      </div>
       <FloatingCTA />
       <Analytics />
       <SpeedInsights />
