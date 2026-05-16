@@ -1594,6 +1594,10 @@ body {
     padding-top: 5.5rem;
   }
 
+  .hero-bg-logos {
+    display: none;
+  }
+
   .hero-inner {
     padding: 0 1.35rem 3rem;
   }
