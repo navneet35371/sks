@@ -140,7 +140,7 @@ const products = [
     name: 'Switches & Wiring',
     hindi: 'स्विच और वायरिंग',
     desc: 'Modular switches, sockets, MCBs, and DB boxes. House wires and cables for every installation.',
-    brandSlugs: ['anchor', 'rrkabel', 'greatwhite'],
+    brandSlugs: ['havells', 'anchor', 'rrkabel', 'greatwhite'],
   },
   {
     icon: <BoltIcon />,
