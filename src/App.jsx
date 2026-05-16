@@ -2,25 +2,33 @@ import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import { reviews, reviewImages } from './reviewsData'
 
+const prefersReduced = typeof window !== 'undefined'
+  ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  : false
+
+const fadeObserver = prefersReduced ? null : new IntersectionObserver(
+  (entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible')
+        fadeObserver.unobserve(entry.target)
+      }
+    }
+  },
+  { threshold: 0.12 }
+)
+
 function useFadeIn() {
   const ref = useRef(null)
   useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced && ref.current) {
-      ref.current.classList.add('visible')
+    const el = ref.current
+    if (!el) return
+    if (prefersReduced) {
+      el.classList.add('visible')
       return
     }
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible')
-          observer.unobserve(entry.target)
-        }
-      },
-      { threshold: 0.12 }
-    )
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
+    fadeObserver.observe(el)
+    return () => fadeObserver.unobserve(el)
   }, [])
   return ref
 }
@@ -34,6 +42,8 @@ function useScrollNavbar() {
     return () => window.removeEventListener('scroll', handler)
   }, [])
 }
+
+/* ===== SVG Icons ===== */
 
 const PhoneIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -55,27 +65,97 @@ const ArrowRightIcon = () => (
   </svg>
 )
 
+const ClockIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="10" />
+    <polyline points="12 6 12 12 16 14" />
+  </svg>
+)
+
+const StarIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+  </svg>
+)
+
+const ChevronIcon = ({ dir }) => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {dir === 'left' ? <polyline points="15 18 9 12 15 6" /> : <polyline points="9 18 15 12 9 6" />}
+  </svg>
+)
+
+const FanIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="2" />
+    <path d="M12 10c0-3.5-1.5-7-5.5-7-.5 3.5 1 6 3 8" />
+    <path d="M14 12c3.5 0 7-1.5 7-5.5-3.5-.5-6 1-8 3" />
+    <path d="M12 14c0 3.5 1.5 7 5.5 7 .5-3.5-1-6-3-8" />
+    <path d="M10 12c-3.5 0-7 1.5-7 5.5 3.5.5 6-1 8-3" />
+  </svg>
+)
+
+const BulbIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M9 21h6M10 17h4" />
+    <path d="M12 3a6 6 0 0 0-4 10.5V17h8v-3.5A6 6 0 0 0 12 3z" />
+  </svg>
+)
+
+const PlugIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 22v-6M9 7V2M15 7V2" />
+    <path d="M6 7h12a2 2 0 0 1 2 2v2a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6V9a2 2 0 0 1 2-2z" />
+  </svg>
+)
+
+const BoltIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+  </svg>
+)
+
+const TagIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+    <line x1="7" y1="7" x2="7.01" y2="7" />
+  </svg>
+)
+
+const ShieldIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+  </svg>
+)
+
+const FlameIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 2c-2 4-5 6-5 10a5 5 0 0 0 10 0c0-4-3-6-5-10z" />
+  </svg>
+)
+
+/* ===== Data ===== */
+
 const products = [
   {
-    icon: '🔄',
+    icon: <FanIcon />,
     name: 'Fans',
     hindi: 'पंखे',
     desc: 'Ceiling, table, and exhaust fans from Havells and other top brands at wholesale prices.',
   },
   {
-    icon: '💡',
+    icon: <BulbIcon />,
     name: 'Lighting',
     hindi: 'लाइटिंग',
     desc: 'LED bulbs, tube lights, panel lights, and street lights. Complete lighting solutions.',
   },
   {
-    icon: '🔌',
+    icon: <PlugIcon />,
     name: 'Electrical Fittings',
-    hindi: 'इलेक्ट्रिकल फिटिंग्स',
+    hindi: 'इलेक्ट्रिकल फिटिंग्एस',
     desc: 'MCB, DB boxes, wires, cables, switches, and sockets. Everything for your wiring needs.',
   },
   {
-    icon: '⚡',
+    icon: <BoltIcon />,
     name: 'Power Backup',
     hindi: 'पावर बैकअप',
     desc: 'Inverters, batteries, solar panels, and stabilizers. Reliable backup for every need.',
@@ -83,26 +163,128 @@ const products = [
 ]
 
 const trustItems = [
-  { icon: '⭐', main: '4.9 Rating', sub: '160+ reviews on Google' },
-  { icon: '🏷️', main: 'Wholesale Prices', sub: 'सबसे अच्छे थोक दाम' },
-  { icon: '🏭', main: 'Havells Dealer', sub: 'Top brands available' },
-  { icon: '📅', main: 'Open 7 Days', sub: '10 AM to 8 PM, सोम–रवि' },
+  { icon: <StarIcon />, main: '4.9 Rating', sub: '160+ reviews on Google' },
+  { icon: <TagIcon />, main: 'Wholesale Prices', sub: 'एसबएसे अच्छे थोक दाम' },
+  { icon: <ShieldIcon />, main: 'Havells Dealer', sub: 'Top brands available' },
+  { icon: <ClockIcon />, main: 'Open 7 Days', sub: '10 AM to 8 PM, एसोम–रवि' },
 ]
 
+const brands = [ // eslint-disable-line no-unused-vars
+  {
+    name: 'Havells',
+    slug: 'havells',
+    categories: ['Wiring', 'Fans', 'Capacitors'],
+    hindi: 'वायरिंग · पंखे · कैपेएसिटर',
+    desc: 'India\'s leading electrical equipment company. We carry their complete range of ceiling fans, wiring accessories, switchgear, and capacitors at wholesale prices.',
+    featured: true,
+  },
+  {
+    name: 'Bajaj',
+    slug: 'bajaj',
+    suffix: 'Electricals',
+    categories: ['Fans', 'Lighting', 'Appliances'],
+    hindi: 'पंखे · लाइटिंग · उपकरण',
+    desc: 'A household name in Indian electricals. Bajaj ceiling fans, LED lighting, and home appliances available at competitive wholesale rates.',
+  },
+  {
+    name: 'Anchor',
+    slug: 'anchor',
+    suffix: 'by Panasonic',
+    categories: ['Switches', 'Sockets', 'MCBs'],
+    hindi: 'एस्विच · एसॉकेट · एमएसीबी',
+    desc: 'Panasonic\'s wiring accessories division in India. Premium switches, sockets, and circuit protection trusted in homes and businesses nationwide.',
+  },
+  {
+    name: 'RR Kabel',
+    slug: 'rrkabel',
+    categories: ['Wires', 'Cables'],
+    hindi: 'वायर · केबल',
+    desc: 'Leading wire and cable manufacturer. Superior quality house wires, industrial cables, and communication cables for every installation.',
+  },
+  {
+    name: 'Elica',
+    slug: 'elica',
+    categories: ['Chimneys', 'Cooktops'],
+    hindi: 'चिमनी · कुकटॉप',
+    desc: 'Italian-designed kitchen chimneys and cooktops. Premium range hoods and gas stoves built for modern Indian kitchens.',
+  },
+  {
+    name: 'Hindware',
+    slug: 'hindware',
+    categories: ['Chimneys', 'Cooktops'],
+    hindi: 'चिमनी · कुकटॉप',
+    desc: 'Iconic Indian brand for kitchen chimneys and cooktops. Reliable performance, stylish designs, and competitive pricing for every budget.',
+  },
+  {
+    name: 'Greatwhite',
+    slug: 'greatwhite',
+    categories: ['Wiring', 'Lighting'],
+    hindi: 'वायरिंग · लाइटिंग',
+    desc: 'Modern electrical wiring accessories and LED lighting solutions. Innovative products designed for safety, durability, and contemporary style.',
+  },
+]
+
+const BRAND_FILES = {
+  havells: 'havells.svg',
+  bajaj: 'bajaj.jpg',
+  anchor: 'anchor.svg',
+  rrkabel: 'rrkabel.svg',
+  elica: 'elica.png',
+  hindware: 'hindware.svg',
+  greatwhite: 'greatwhite.png',
+}
+
+function BrandLogo({ slug, name }) {
+  const file = BRAND_FILES[slug]
+  if (!file) return <div className="brand-mark">{name.charAt(0)}</div>
+  return (
+    <img
+      src={`/brands/${file}`}
+      alt={`${name} logo`}
+      className="brand-logo-img"
+      loading="lazy"
+    />
+  )
+}
+
+function Brands() {
+  return (
+    <section className="brands" id="brands" aria-labelledby="brands-title">
+      <div className="fade-in" ref={useFadeIn()}>
+        <p className="section-label">Our Brands / {'हमारे ब्रांड'}</p>
+        <h2 className="section-title" id="brands-title">Authorized Dealer</h2>
+        <p className="section-hindi" lang="hi">{'अधिकृत डीलर'}</p>
+      </div>
+      <div className="brands-list fade-in fade-in-delay-1" ref={useFadeIn()}>
+        {brands.map(b => (
+          <div key={b.slug} className="brand-row">
+            <div className="brand-row-logo">
+              <BrandLogo slug={b.slug} name={b.name} />
+            </div>
+            <div className="brand-row-body">
+              <div className="brand-row-head">
+                <h3 className="brand-row-name">
+                  {b.name}
+                  {b.suffix && <small>{b.suffix}</small>}
+                </h3>
+                <span className="brand-row-cats">{b.categories.join(' · ')}</span>
+              </div>
+              <p className="brand-row-hindi" lang="hi">{b.hindi}</p>
+              <p className="brand-row-desc">{b.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
 const MAPS_URL = 'https://maps.google.com/maps?q=S+K+Electronics+Ring+Bandh+Road+Sitamarhi+Bihar&t=&z=15&ie=UTF8&iwloc=&output=embed'
 const DIRECTIONS_URL = 'https://maps.app.goo.gl/7ZJPWBfTbXs9MuMN6'
-const REVIEWS_URL = 'https://maps.app.goo.gl/7ZJPWBfTbXs9MuMN6'
+const REVIEWS_URL = 'https://www.google.com/maps/place/S.+K.+Electronics/@26.5883622,85.4873171,17z/data=!4m8!3m7!1s0x39ecf12c7e6fa777:0xe2013697c9b54a21!8m2!3d26.5883574!4d85.489892!9m1!1b1!16s%2Fg%2F11wy5qq8fk'
 const PHONE = '+91 90654 73333'
 const PHONE_HREF = 'tel:+919065473333'
 
-const galleryImages = [
-  { src: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&w=600&q=80', alt: 'Colorful electrical wires bundled together' },
-  { src: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=600&q=80', alt: 'Electrical circuit breaker panel' },
-  { src: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=600&q=80', alt: 'Electrical wiring and components' },
-  { src: 'https://images.unsplash.com/photo-1555436169-20e93ea9a7ff?auto=format&fit=crop&w=600&q=80', alt: 'LED light bulbs on display' },
-  { src: 'https://images.unsplash.com/photo-1613665813446-82a78c468a1d?auto=format&fit=crop&w=600&q=80', alt: 'Electrical supply store shelves' },
-  { src: 'https://images.unsplash.com/photo-1581249809804-22b43a7e8e9e?auto=format&fit=crop&w=600&q=80', alt: 'Power cables and electrical fittings' },
-]
+/* ===== Components ===== */
 
 function Navbar() {
   useScrollNavbar()
@@ -126,53 +308,32 @@ function Navbar() {
 function Hero() {
   return (
     <section className="hero" id="home">
-      <div className="hero-grain" aria-hidden="true" />
-      <div className="hero-glow" aria-hidden="true" />
       <div className="hero-content">
         <div className="hero-text fade-in" ref={useFadeIn()}>
           <div className="hero-badge">
-            <span className="star" aria-hidden="true">★</span> 4.9 Rating · Trusted Since 2017
+            <StarIcon /> <span>Trusted Since 2017</span>
           </div>
           <h1>S. K. Electronics</h1>
-          <span className="hero-hindi">स. के. इलेक्ट्रॉनिक्स</span>
+          <span className="hero-hindi" lang="hi">{'एस. के. इलेक्ट्रॉनिक्एस'}</span>
           <p className="hero-tagline">
             Your trusted electrical wholesale partner in Sitamarhi.
           </p>
           <p className="hero-tagline-hindi" lang="hi">
-            सीतामढ़ी में आपका विश्वसनीय इलेक्ट्रिकल थोक पार्टनर।
+            {'एसीतामढ़ी में आपका विश्वएसनीय इलेक्ट्रिकल थोक पार्टनर।'}
           </p>
           <div className="hero-actions">
             <a href={PHONE_HREF} className="btn btn-primary">
               <PhoneIcon /> Call Now
             </a>
-            <a
-              href={DIRECTIONS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-ghost"
-            >
+            <a href="#about" className="btn btn-ghost">
               <MapPinIcon /> Directions
             </a>
           </div>
-        </div>
-        <div className="hero-aside fade-in fade-in-delay-2" ref={useFadeIn()}>
-          <div className="hero-rating">
-            <div className="hero-rating-number">4.9</div>
-            <div className="hero-rating-stars" aria-label="4.9 out of 5 stars">
-              ★★★★★
-            </div>
-            <div className="hero-rating-label">160+ ratings on Google</div>
-          </div>
-          <div className="hero-categories">
-            {products.map((p) => (
-              <div key={p.name} className="hero-cat">
-                <span className="hero-cat-icon" aria-hidden="true">{p.icon}</span>
-                <div>
-                  {p.name}
-                  <span className="hero-cat-hindi" lang="hi">{p.hindi}</span>
-                </div>
-              </div>
-            ))}
+          <div className="hero-rating-inline">
+            <span className="hero-rating-stars" aria-hidden="true">
+              {Array.from({ length: 5 }).map((_, i) => <StarIcon key={i} />)}
+            </span>
+            <span>4.9 &middot; 160+ Google ratings</span>
           </div>
         </div>
       </div>
@@ -180,27 +341,32 @@ function Hero() {
   )
 }
 
+function ProductCard({ product, index }) {
+  return (
+    <div
+      className={`product-card fade-in fade-in-delay-${index + 1}`}
+      ref={useFadeIn()}
+      role="listitem"
+    >
+      <div className="product-icon" aria-hidden="true">{product.icon}</div>
+      <h3 className="product-name">{product.name}</h3>
+      <p className="product-hindi" lang="hi">{product.hindi}</p>
+      <p className="product-desc">{product.desc}</p>
+    </div>
+  )
+}
+
 function Products() {
   return (
     <section className="products" id="products" aria-labelledby="products-title">
       <div className="fade-in" ref={useFadeIn()}>
-        <p className="section-label">What We Offer / हमारे उत्पाद</p>
+        <p className="section-label">What We Offer / {'हमारे उत्पाद'}</p>
         <h2 className="section-title" id="products-title">Our Products</h2>
-        <p className="section-hindi" lang="hi">थोक मूल्य पर उपलब्ध</p>
+        <p className="section-hindi" lang="hi">{'थोक मूल्य पर उपलब्ध'}</p>
       </div>
       <div className="products-grid" role="list">
         {products.map((p, i) => (
-          <div
-            key={p.name}
-            className={`product-card fade-in fade-in-delay-${i + 1}`}
-            ref={useFadeIn()}
-            role="listitem"
-          >
-            <div className="product-icon" aria-hidden="true">{p.icon}</div>
-            <h3 className="product-name">{p.name}</h3>
-            <p className="product-hindi" lang="hi">{p.hindi}</p>
-            <p className="product-desc">{p.desc}</p>
-          </div>
+          <ProductCard key={p.name} product={p} index={i} />
         ))}
       </div>
     </section>
@@ -230,18 +396,6 @@ function Trust() {
   )
 }
 
-const StarIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-  </svg>
-)
-
-const ChevronIcon = ({ dir }) => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    {dir === 'left' ? <polyline points="15 18 9 12 15 6" /> : <polyline points="9 18 15 12 9 6" />}
-  </svg>
-)
-
 function ImageCarousel({ images }) {
   const [index, setIndex] = useState(0)
   const count = images.length
@@ -266,15 +420,8 @@ function ImageCarousel({ images }) {
           <button className="carousel-btn carousel-next" onClick={next} aria-label="Next photo">
             <ChevronIcon dir="right" />
           </button>
-          <div className="carousel-dots">
-            {images.map((_, i) => (
-              <button
-                key={i}
-                className={`carousel-dot ${i === index ? 'active' : ''}`}
-                onClick={() => setIndex(i)}
-                aria-label={`Go to photo ${i + 1}`}
-              />
-            ))}
+          <div className="carousel-counter">
+            {index + 1} / {count}
           </div>
         </>
       )}
@@ -283,22 +430,23 @@ function ImageCarousel({ images }) {
 }
 
 function Gallery() {
-  const allPhotos = [...reviewImages, ...galleryImages.map(g => ({ src: g.src, alt: g.alt }))]
   return (
     <section className="gallery" id="gallery" aria-labelledby="gallery-title">
       <div className="fade-in" ref={useFadeIn()}>
-        <p className="section-label">Gallery / गैलरी</p>
-        <h2 className="section-title" id="gallery-title">See Our Store</h2>
-        <p className="section-hindi" lang="hi">हमारी दुकान देखें</p>
+        <p className="section-label">Photos / {'फ़ोटो'}</p>
+        <h2 className="section-title" id="gallery-title">Customer Photos</h2>
+        <p className="section-hindi" lang="hi">{'ग्राहक फ़ोटो'}</p>
       </div>
       <div className="fade-in fade-in-delay-1" ref={useFadeIn()}>
-        <ImageCarousel images={allPhotos} />
+        <ImageCarousel images={reviewImages} />
       </div>
     </section>
   )
 }
 
 function ReviewCard({ review }) {
+  const [expanded, setExpanded] = useState(false)
+  const isLong = review.snippet.length > 120
   return (
     <div className="review-card">
       <div className="review-top">
@@ -309,7 +457,12 @@ function ReviewCard({ review }) {
         </div>
         <span className="review-time">{review.date}</span>
       </div>
-      <p className="review-text">{review.snippet}</p>
+      <p className={`review-text${isLong && !expanded ? ' review-clamped' : ''}`}>{review.snippet}</p>
+      {isLong && !expanded && (
+        <button className="review-read-more" onClick={() => setExpanded(true)}>
+          Read more / {'और पढ़ें'}
+        </button>
+      )}
       {review.images.length > 0 && (
         <div className="review-images">
           {review.images.slice(0, 3).map((img, i) => (
@@ -338,10 +491,10 @@ function Reviews() {
   return (
     <section className="reviews-section" id="reviews" aria-labelledby="reviews-title">
       <div className="fade-in" ref={useFadeIn()}>
-        <p className="section-label">Customer Reviews / ग्राहक समीक्षा</p>
+        <p className="section-label">Customer Reviews / {'ग्राहक एसमीक्षा'}</p>
         <h2 className="section-title" id="reviews-title">What Customers Say</h2>
-        <p className="section-hindi" lang="hi">ग्राहक क्या कहते हैं</p>
-        <div className="reviews-count">{reviews.length} reviews · ★★★★★ 4.9</div>
+        <p className="section-hindi" lang="hi">{'ग्राहक क्या कहते हैं'}</p>
+        <div className="reviews-count">{reviews.length} reviews &middot; 4.9</div>
       </div>
       <div className="reviews-grid">
         {visible.map((r, i) => (
@@ -387,9 +540,9 @@ function About() {
   return (
     <section className="about" id="about" aria-labelledby="about-title">
       <div className="fade-in" ref={useFadeIn()}>
-        <p className="section-label">About Us / हमारे बारे में</p>
+        <p className="section-label">About Us / {'हमारे बारे में'}</p>
         <h2 className="section-title" id="about-title">Visit Our Store</h2>
-        <p className="section-hindi" lang="hi">हमारे स्टोर पर आएं</p>
+        <p className="section-hindi" lang="hi">{'हमारे एस्टोर पर आएं'}</p>
       </div>
       <div className="about-grid">
         <div className="about-text fade-in" ref={useFadeIn()}>
@@ -399,14 +552,13 @@ function About() {
             at unbeatable wholesale prices.
           </p>
           <p className="hindi" lang="hi">
-            स. के. इलेक्ट्रॉनिक्स रिंग बांध रोड, सीतामढ़ी पर एक प्रमुख इलेक्ट्रिकल उपकरण थोक विक्रेता है।
-            हम पंखे, लाइटिंग, इलेक्ट्रिकल फिटिंग्स और पावर बैकअप समाधान सबसे अच्छे थोक मूल्य पर उपलब्ध कराते हैं।
+            {'एस. के. इलेक्ट्रॉनिक्एस रिंग बांध रोड, एसीतामढ़ी पर एक प्रमुख इलेक्ट्रिकल उपकरण थोक विक्रेता है। हम पंखे, लाइटिंग, इलेक्ट्रिकल फिटिंग्एस और पावर बैकअप एसमाधान एसबएसे अच्छे थोक मूल्य पर उपलब्ध कराते हैं।'}
           </p>
           <a
             href={DIRECTIONS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="about-cta"
+            className="btn btn-dark"
           >
             <MapPinIcon /> Get Directions <ArrowRightIcon />
           </a>
@@ -419,6 +571,13 @@ function About() {
             referrerPolicy="no-referrer-when-downgrade"
             title="S. K. Electronics, Ring Bandh Road, Sitamarhi"
           />
+          <div className="about-map-fallback">
+            <MapPinIcon />
+            <p>Ring Bandh Rd, Sitamarhi, Bihar 843302</p>
+            <a href={DIRECTIONS_URL} target="_blank" rel="noopener noreferrer">
+              Open in Google Maps
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -430,9 +589,9 @@ function Contact() {
     <section className="contact" id="contact" aria-labelledby="contact-title">
       <div className="contact-inner">
         <div className="fade-in" ref={useFadeIn()}>
-          <p className="section-label">Get In Touch / संपर्क करें</p>
+          <p className="section-label">Get In Touch / {'एसंपर्क करें'}</p>
           <h2 className="section-title" id="contact-title">Contact Us</h2>
-          <p className="section-hindi" lang="hi">फ़ोन करें या स्टोर आएं</p>
+          <p className="section-hindi" lang="hi">{'फ़ोन करें या एस्टोर आएं'}</p>
         </div>
         <div className="contact-grid">
           <div className="contact-block fade-in fade-in-delay-1" ref={useFadeIn()}>
@@ -440,7 +599,7 @@ function Contact() {
             <div className="contact-block-value">
               <a href={PHONE_HREF}>{PHONE}</a>
             </div>
-            <div className="contact-block-label">Phone / फ़ोन</div>
+            <div className="contact-block-label">Phone / {'फ़ोन'}</div>
           </div>
           <div className="contact-block fade-in fade-in-delay-2" ref={useFadeIn()}>
             <div className="contact-block-icon"><MapPinIcon /></div>
@@ -449,12 +608,12 @@ function Contact() {
                 Ring Bandh Rd, Sitamarhi
               </a>
             </div>
-            <div className="contact-block-label">Bihar 843302 / सीतामढ़ी, बिहार</div>
+            <div className="contact-block-label">Bihar 843302 / {'एसीतामढ़ी, बिहार'}</div>
           </div>
           <div className="contact-block fade-in fade-in-delay-3" ref={useFadeIn()}>
-            <div className="contact-block-icon">🕐</div>
+            <div className="contact-block-icon"><ClockIcon /></div>
             <div className="contact-block-value">10 AM to 8 PM</div>
-            <div className="contact-block-label">Open 7 days / सोम से रवि</div>
+            <div className="contact-block-label">Open 7 days / {'एसोम एसे रवि'}</div>
           </div>
         </div>
       </div>
@@ -467,18 +626,19 @@ function Footer() {
     <footer className="footer">
       <div className="footer-inner">
         <div className="footer-name">S. K. Electronics</div>
-        <div className="footer-hindi" lang="hi">स. के. इलेक्ट्रॉनिक्स</div>
+        <div className="footer-hindi" lang="hi">{'एस. के. इलेक्ट्रॉनिक्एस'}</div>
         <nav className="footer-links" aria-label="Footer navigation">
           <a href="#home">Home</a>
           <a href="#products">Products</a>
-          <a href="#gallery">Gallery</a>
+          <a href="#brands">Brands</a>
+          <a href="#gallery">Photos</a>
           <a href="#reviews">Reviews</a>
           <a href="#about">About</a>
           <a href="#contact">Contact</a>
           <a href={PHONE_HREF}>Call Now</a>
         </nav>
         <p className="footer-copy">
-          © {new Date().getFullYear()} S. K. Electronics, Sitamarhi. All rights reserved.
+          &copy; {new Date().getFullYear()} S. K. Electronics, Sitamarhi. All rights reserved.
         </p>
       </div>
     </footer>
@@ -491,8 +651,9 @@ function App() {
       <Navbar />
       <main>
         <Hero />
-        <Products />
         <Trust />
+        <Products />
+        <Brands />
         <Gallery />
         <Reviews />
         <About />
