@@ -270,8 +270,122 @@ function Navbar() {
 }
 
 function Hero() {
+  const LIGHT_LOGOS = new Set(['elica', 'greatwhite'])
+
+  const brandLogos = [
+    { src: '/brands/havells.svg', slug: 'havells', x: '8%', y: '12%', size: '90px' },
+    { src: '/brands/bajaj.png', slug: 'bajaj', x: '88%', y: '8%', size: '80px' },
+    { src: '/brands/anchor.svg', slug: 'anchor', x: '18%', y: '75%', size: '75px' },
+    { src: '/brands/rrkabel.svg', slug: 'rrkabel', x: '78%', y: '68%', size: '85px' },
+    { src: '/brands/elica.png', slug: 'elica', x: '52%', y: '18%', size: '70px' },
+    { src: '/brands/hindware.svg', slug: 'hindware', x: '92%', y: '82%', size: '80px' },
+    { src: '/brands/morphy-richards.png', slug: 'morphy-richards', x: '12%', y: '45%', size: '95px' },
+    { src: '/brands/greatwhite.png', slug: 'greatwhite', x: '62%', y: '88%', size: '75px' },
+    { src: '/brands/havells.svg', slug: 'havells', x: '45%', y: '55%', size: '65px' },
+    { src: '/brands/bajaj.png', slug: 'bajaj', x: '25%', y: '25%', size: '60px' },
+    { src: '/brands/anchor.svg', slug: 'anchor', x: '70%', y: '35%', size: '70px' },
+    { src: '/brands/rrkabel.svg', slug: 'rrkabel', x: '35%', y: '85%', size: '65px' },
+    { src: '/brands/elica.png', slug: 'elica', x: '82%', y: '45%', size: '60px' },
+    { src: '/brands/hindware.svg', slug: 'hindware', x: '5%', y: '88%', size: '70px' },
+    { src: '/brands/morphy-richards.png', slug: 'morphy-richards', x: '55%', y: '70%', size: '75px' },
+    { src: '/brands/greatwhite.png', slug: 'greatwhite', x: '40%', y: '30%', size: '55px' },
+    { src: '/brands/havells.svg', slug: 'havells', x: '95%', y: '50%', size: '60px' },
+    { src: '/brands/bajaj.png', slug: 'bajaj', x: '65%', y: '55%', size: '55px' },
+    { src: '/brands/anchor.svg', slug: 'anchor', x: '30%', y: '60%', size: '60px' },
+    { src: '/brands/rrkabel.svg', slug: 'rrkabel', x: '50%', y: '40%', size: '50px' },
+    { src: '/brands/havells.svg', slug: 'havells', x: '22%', y: '50%', size: '55px' },
+    { src: '/brands/greatwhite.png', slug: 'greatwhite', x: '75%', y: '22%', size: '60px' },
+    { src: '/brands/anchor.svg', slug: 'anchor', x: '85%', y: '55%', size: '65px' },
+    { src: '/brands/bajaj.png', slug: 'bajaj', x: '48%', y: '78%', size: '70px' },
+    { src: '/brands/rrkabel.svg', slug: 'rrkabel', x: '15%', y: '30%', size: '50px' },
+  ]
+
+  const productIcons = [
+    { type: 'switch', x: '14%', y: '18%', size: '35px' },
+    { type: 'switch', x: '52%', y: '62%', size: '30px' },
+    { type: 'switch', x: '82%', y: '15%', size: '32px' },
+    { type: 'switch', x: '38%', y: '42%', size: '28px' },
+    { type: 'pipe', x: '24%', y: '82%', size: '40px' },
+    { type: 'pipe', x: '72%', y: '42%', size: '35px' },
+    { type: 'pipe', x: '92%', y: '35%', size: '30px' },
+    { type: 'wire', x: '8%', y: '65%', size: '45px' },
+    { type: 'wire', x: '62%', y: '32%', size: '38px' },
+    { type: 'wire', x: '42%', y: '92%', size: '35px' },
+    { type: 'wire', x: '78%', y: '78%', size: '32px' },
+  ]
+
+  const SwitchIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="4" width="16" height="16" rx="2" />
+      <circle cx="12" cy="12" r="3" />
+      <line x1="12" y1="2" x2="12" y2="4" />
+      <line x1="12" y1="20" x2="12" y2="22" />
+    </svg>
+  )
+
+  const PipeIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 12h6" />
+      <path d="M14 12h6" />
+      <circle cx="12" cy="12" r="2" />
+      <path d="M12 10v4" />
+      <path d="M4 8h4" />
+      <path d="M16 16h4" />
+    </svg>
+  )
+
+  const WireIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0" />
+      <circle cx="2" cy="12" r="1" fill="currentColor" />
+      <circle cx="22" cy="12" r="1" fill="currentColor" />
+    </svg>
+  )
+
+  const renderProductIcon = (type) => {
+    switch (type) {
+      case 'switch': return <SwitchIcon />
+      case 'pipe': return <PipeIcon />
+      case 'wire': return <WireIcon />
+      default: return null
+    }
+  }
+
   return (
     <section className="hero" id="home">
+      <div className="hero-bg-logos" aria-hidden="true">
+        {brandLogos.map((logo, i) => (
+          <img
+            key={`logo-${i}`}
+            src={logo.src}
+            alt=""
+            data-light={LIGHT_LOGOS.has(logo.slug) ? 'true' : undefined}
+            style={{
+              position: 'absolute',
+              left: logo.x,
+              top: logo.y,
+              width: logo.size,
+              transform: 'translate(-50%, -50%)',
+            }}
+          />
+        ))}
+        {productIcons.map((icon, i) => (
+          <div
+            key={`product-${i}`}
+            className="hero-product-icon"
+            style={{
+              position: 'absolute',
+              left: icon.x,
+              top: icon.y,
+              width: icon.size,
+              height: icon.size,
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            {renderProductIcon(icon.type)}
+          </div>
+        ))}
+      </div>
       <div className="hero-inner">
         <div className="hero-left fade-in" ref={useFadeIn()}>
           <div className="hero-eyebrow">
@@ -660,7 +774,7 @@ function Contact() {
             <div className="contact-block-icon"><MapPinIcon /></div>
             <div className="contact-block-value">
               <a href={DIRECTIONS_URL} target="_blank" rel="noopener noreferrer">
-                Ring Bandh Rd, Sitamarhi
+                Gaushala Road, Ring Bandh Rd, Chakmahila, Sitamarhi
               </a>
             </div>
             <div className="contact-block-label">Bihar 843302 / सीतामढ़ी, बिहार</div>
