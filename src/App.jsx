@@ -319,6 +319,7 @@ function Hero() {
           <h1>
             <span className="hero-line">S. K.</span>
             <span className="hero-line hero-line-accent">Electronics</span>
+            <span className="sr-only"> — Wholesale Electrical Distributor in Sitamarhi, Bihar</span>
           </h1>
           <p className="hero-hindi" lang="hi">एस. के. इलेक्ट्रॉनिक्स</p>
         </div>
@@ -486,6 +487,8 @@ function Gallery() {
             src={photos[index].src}
             alt={`${photos[index].name} review photo`}
             loading="lazy"
+            width="800"
+            height="450"
             key={index}
             className="gallery-main-img"
           />
@@ -582,7 +585,7 @@ function Reviews() {
         ))}
       </div>
       {totalPages > 1 && (
-        <div className="reviews-pagination">
+        <div className="reviews-pagination" role="navigation" aria-label="Review pagination">
           <button
             className="pagination-btn"
             onClick={() => setPage(p => Math.max(0, p - 1))}
@@ -649,6 +652,7 @@ function About() {
             allowFullScreen=""
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
+            sandbox="allow-scripts allow-same-origin allow-popups"
             title="S. K. Electronics, Gaushala Road, Ring Bandh Rd, Sitamarhi"
           />
           <div className="about-map-fallback">
@@ -705,21 +709,38 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer-inner">
-        <div className="footer-name">S. K. Electronics</div>
-        <div className="footer-hindi" lang="hi">एस. के. इलेक्ट्रॉनिक्स</div>
+        <div className="footer-brand">
+          <div className="footer-name">S. K. Electronics</div>
+          <div className="footer-hindi" lang="hi">एस. के. इलेक्ट्रॉनिक्स</div>
+        </div>
+        <div className="footer-contact">
+          <a href={PHONE_HREF} className="footer-phone">
+            <PhoneIcon />
+            <span>{PHONE}</span>
+          </a>
+          <address className="footer-address">
+            Gaushala Road, Ring Bandh Rd, Chakmahila, Sitamarhi, Bihar 843302
+          </address>
+        </div>
         <nav className="footer-links" aria-label="Footer navigation">
-          <a href="#home">Home</a>
-          <a href="#products">Products</a>
-          <a href="#brands">Brands</a>
-          <a href="#gallery">Photos</a>
-          <a href="#reviews">Reviews</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-          <a href={PHONE_HREF}>Call Now</a>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#brands">Brands</a></li>
+            <li><a href="#gallery">Photos</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
         </nav>
-        <p className="footer-copy">
-          &copy; {new Date().getFullYear()} S. K. Electronics, Sitamarhi. All rights reserved.
-        </p>
+        <div className="footer-bottom">
+          <p className="footer-copy">
+            &copy; {new Date().getFullYear()} S. K. Electronics, Sitamarhi. All rights reserved.
+          </p>
+          <p className="footer-hours" lang="hi">
+            खुला 7 दिन / Open 7 days, 10 AM &ndash; 8 PM
+          </p>
+        </div>
       </div>
     </footer>
   )
@@ -748,8 +769,9 @@ function FloatingCTA() {
 function App() {
   return (
     <>
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <Navbar />
-      <main>
+      <main id="main-content">
         <Hero />
         <TrustStrip />
         <Products />

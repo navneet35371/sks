@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://skelectronics.com/sitemap.xml
