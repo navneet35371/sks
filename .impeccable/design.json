@@ -1,0 +1,231 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-16T11:20:00+05:30",
+  "title": "Design System: S. K. Electronics",
+  "extensions": {
+    "colorMeta": {
+      "deep-shop-teal": {
+        "role": "primary",
+        "displayName": "Deep Shop Teal",
+        "canonical": "oklch(0.30 0.06 175)",
+        "tonalRamp": [
+          "oklch(0.12 0.06 175)",
+          "oklch(0.22 0.06 175)",
+          "oklch(0.32 0.06 175)",
+          "oklch(0.42 0.06 175)",
+          "oklch(0.52 0.06 175)",
+          "oklch(0.65 0.06 175)",
+          "oklch(0.80 0.06 175)",
+          "oklch(0.93 0.06 175)"
+        ]
+      },
+      "sitamarhi-gold": {
+        "role": "primary",
+        "displayName": "Sitamarhi Gold",
+        "canonical": "oklch(0.72 0.15 80)",
+        "tonalRamp": [
+          "oklch(0.18 0.15 80)",
+          "oklch(0.32 0.15 80)",
+          "oklch(0.42 0.15 80)",
+          "oklch(0.52 0.15 80)",
+          "oklch(0.62 0.15 80)",
+          "oklch(0.72 0.15 80)",
+          "oklch(0.82 0.15 80)",
+          "oklch(0.94 0.15 80)"
+        ]
+      },
+      "warm-cream": {
+        "role": "neutral",
+        "displayName": "Warm Cream",
+        "canonical": "oklch(0.97 0.008 80)",
+        "tonalRamp": [
+          "oklch(0.20 0.008 80)",
+          "oklch(0.35 0.008 80)",
+          "oklch(0.50 0.008 80)",
+          "oklch(0.65 0.008 80)",
+          "oklch(0.77 0.008 80)",
+          "oklch(0.87 0.008 80)",
+          "oklch(0.93 0.008 80)",
+          "oklch(0.98 0.008 80)"
+        ]
+      },
+      "near-black-warm": {
+        "role": "neutral",
+        "displayName": "Near Black Warm",
+        "canonical": "oklch(0.18 0.012 55)",
+        "tonalRamp": [
+          "oklch(0.10 0.012 55)",
+          "oklch(0.18 0.012 55)",
+          "oklch(0.28 0.012 55)",
+          "oklch(0.40 0.012 55)",
+          "oklch(0.52 0.012 55)",
+          "oklch(0.64 0.012 55)",
+          "oklch(0.78 0.012 55)",
+          "oklch(0.92 0.012 55)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headline only. The shop name at maximum scale and weight."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles that introduce major content areas."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Product names, contact values, navigation text."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraph text, descriptions, review snippets. Bilingual reading."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Section labels, uppercase bilingual markers."
+      }
+    },
+    "shadows": [
+      {
+        "name": "card-hover",
+        "value": "0 12px 40px oklch(0.30 0.06 175 / 0.08)",
+        "purpose": "Teal-tinted lift on product card hover."
+      },
+      {
+        "name": "button-glow",
+        "value": "0 4px 20px oklch(0.72 0.15 80 / 0.3)",
+        "purpose": "Gold glow on primary button hover."
+      },
+      {
+        "name": "map-ambient",
+        "value": "0 4px 24px oklch(0.30 0.06 175 / 0.06)",
+        "purpose": "Subtle shadow under embedded map."
+      },
+      {
+        "name": "navbar-hairline",
+        "value": "0 1px 0 oklch(0.88 0.010 80)",
+        "purpose": "Boundary line on scrolled navbar."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.25, 1, 0.5, 1)",
+        "purpose": "Default easing for all transitions. Ease-out-quart."
+      },
+      {
+        "name": "fade-in",
+        "value": "opacity 0.6s ease-out, transform 0.6s ease-out",
+        "purpose": "Intersection Observer entrance. translateY(24px) to rest."
+      },
+      {
+        "name": "stagger-delay",
+        "value": "0.08s increments",
+        "purpose": "Sequential fade-in delay for grouped elements."
+      },
+      {
+        "name": "hover-lift",
+        "value": "transform 0.35s ease-out",
+        "purpose": "Card translateY(-4px) on hover."
+      },
+      {
+        "name": "press-scale",
+        "value": "transform 0.15s ease-out",
+        "purpose": "Button scale(0.97) on active."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px", "purpose": "Mobile. Single-column, compact spacing, icon-only nav CTA." },
+      { "name": "md", "value": "900px", "purpose": "Tablet. Two-column hero, stacked about section." },
+      { "name": "xs", "value": "400px", "purpose": "Small mobile. Single-column product grid." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The call-to-action. Sitamarhi Gold pill with phone icon.",
+      "html": "<a href=\"tel:+919065473333\" class=\"ds-btn-primary\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" width=\"18\" height=\"18\"><path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z\"/></svg> Call Now</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem 1.75rem; border-radius: 50px; font-size: 0.95rem; font-weight: 700; font-family: 'Mukta', system-ui, sans-serif; background: oklch(0.72 0.15 80); color: oklch(0.18 0.012 55); border: none; cursor: pointer; min-height: 48px; text-decoration: none; transition: background 0.2s cubic-bezier(0.25, 1, 0.5, 1), transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s cubic-bezier(0.25, 1, 0.5, 1); } .ds-btn-primary:hover { background: oklch(0.78 0.16 80); box-shadow: 0 4px 20px oklch(0.72 0.15 80 / 0.3); } .ds-btn-primary:active { transform: scale(0.97); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action. Teal-tinted transparent pill for Directions and navigation.",
+      "html": "<a href=\"#\" class=\"ds-btn-ghost\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" width=\"18\" height=\"18\"><path d=\"M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg> Directions</a>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem 1.75rem; border-radius: 50px; font-size: 0.95rem; font-weight: 700; font-family: 'Mukta', system-ui, sans-serif; background: oklch(0.95 0.01 175 / 0.1); color: oklch(0.95 0.01 175); border: 1px solid oklch(0.95 0.01 175 / 0.25); cursor: pointer; min-height: 48px; text-decoration: none; transition: background 0.2s cubic-bezier(0.25, 1, 0.5, 1); } .ds-btn-ghost:hover { background: oklch(0.95 0.01 175 / 0.18); }"
+    },
+    {
+      "name": "Product Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Content card for product categories. Lifts on hover.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-icon\">&#x1F50C;</div><h3 class=\"ds-card-name\">Electrical Fittings</h3><p class=\"ds-card-hindi\">इलेक्ट्रिकल फिटिंग्स</p><p class=\"ds-card-desc\">MCB, DB boxes, wires, cables, switches, and sockets. Everything for your wiring needs.</p></div>",
+      "css": ".ds-card { background: oklch(0.99 0.005 80); border: 1px solid oklch(0.88 0.010 80); border-radius: 14px; padding: 1.75rem 1.5rem; transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s cubic-bezier(0.25, 1, 0.5, 1); } .ds-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px oklch(0.30 0.06 175 / 0.08); } .ds-card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1rem; background: oklch(0.93 0.04 55); } .ds-card-name { font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: 1.05rem; color: oklch(0.18 0.012 55); margin: 0 0 0.1rem; } .ds-card-hindi { font-size: 0.78rem; color: oklch(0.58 0.012 55); margin: 0 0 0.6rem; } .ds-card-desc { font-size: 0.85rem; color: oklch(0.40 0.015 55); line-height: 1.6; margin: 0; }"
+    },
+    {
+      "name": "Navbar",
+      "kind": "nav",
+      "refersTo": "nav-cta",
+      "description": "Fixed top navigation. Transparent on hero, blurred cream on scroll.",
+      "html": "<nav class=\"ds-nav\"><div class=\"ds-nav-logo\"><div class=\"ds-nav-mark\">SK</div><div class=\"ds-nav-text\"><span class=\"ds-nav-name\">S. K. Electronics</span><span class=\"ds-nav-sub\">Wholesale Electrical</span></div></div><a href=\"tel:+919065473333\" class=\"ds-nav-cta\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" width=\"16\" height=\"16\"><path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z\"/></svg><span>+91 90654 73333</span></a></nav>",
+      "css": ".ds-nav { display: flex; justify-content: space-between; align-items: center; padding: 0.875rem 2rem; background: oklch(0.97 0.008 80 / 0.95); backdrop-filter: blur(16px); box-shadow: 0 1px 0 oklch(0.88 0.010 80); } .ds-nav-logo { display: flex; align-items: center; gap: 0.75rem; } .ds-nav-mark { width: 38px; height: 38px; background: oklch(0.72 0.15 80); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: oklch(0.20 0.04 80); font-weight: 800; font-size: 0.95rem; font-family: 'Bricolage Grotesque', system-ui, sans-serif; } .ds-nav-text { display: flex; flex-direction: column; } .ds-nav-name { font-weight: 700; font-size: 1.05rem; line-height: 1.2; color: oklch(0.18 0.012 55); font-family: 'Bricolage Grotesque', system-ui, sans-serif; } .ds-nav-sub { font-size: 0.625rem; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; color: oklch(0.18 0.012 55); } .ds-nav-cta { display: flex; align-items: center; gap: 0.5rem; background: oklch(0.72 0.15 80); color: oklch(0.20 0.04 80); padding: 0.55rem 1.25rem; border-radius: 50px; font-size: 0.85rem; font-weight: 700; font-family: 'Mukta', system-ui, sans-serif; text-decoration: none; min-height: 44px; justify-content: center; transition: background 0.2s cubic-bezier(0.25, 1, 0.5, 1); } .ds-nav-cta:hover { background: oklch(0.78 0.16 80); }"
+    },
+    {
+      "name": "Review Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Customer review with stars, text, optional photos, and author.",
+      "html": "<div class=\"ds-review\"><div class=\"ds-review-top\"><div class=\"ds-review-stars\"><span class=\"ds-review-star\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z\"/></svg></span><span class=\"ds-review-star\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z\"/></svg></span><span class=\"ds-review-star\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z\"/></svg></span><span class=\"ds-review-star\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z\"/></svg></span><span class=\"ds-review-star\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z\"/></svg></span></div><span class=\"ds-review-time\">8 months ago</span></div><p class=\"ds-review-text\">Very professional service. They patiently answered all my questions and helped me choose the best product.</p><div class=\"ds-review-footer\"><div class=\"ds-review-avatar\">M</div><span class=\"ds-review-name\">Mukesh Prasad</span></div></div>",
+      "css": ".ds-review { background: oklch(0.99 0.005 80); border: 1px solid oklch(0.88 0.010 80); border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; } .ds-review-top { display: flex; justify-content: space-between; align-items: center; } .ds-review-stars { display: flex; gap: 1px; } .ds-review-star { color: oklch(0.72 0.15 80); display: flex; } .ds-review-time { font-size: 0.7rem; color: oklch(0.58 0.012 55); } .ds-review-text { font-size: 0.85rem; line-height: 1.55; color: oklch(0.40 0.015 55); margin: 0; } .ds-review-footer { display: flex; align-items: center; gap: 0.5rem; margin-top: auto; padding-top: 0.5rem; border-top: 1px solid oklch(0.88 0.010 80); } .ds-review-avatar { width: 26px; height: 26px; border-radius: 50%; background: oklch(0.92 0.04 175); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: oklch(0.30 0.06 175); } .ds-review-name { font-size: 0.78rem; font-weight: 600; color: oklch(0.18 0.012 55); }"
+    },
+    {
+      "name": "Hero Rating Block",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "The trust anchor. Large gold number, five stars, review count.",
+      "html": "<div class=\"ds-hero-rating\"><div class=\"ds-hero-rating-number\">4.9</div><div class=\"ds-hero-rating-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class=\"ds-hero-rating-label\">160+ ratings on Google</div></div>",
+      "css": ".ds-hero-rating { background: oklch(0.95 0.01 175 / 0.08); border: 1px solid oklch(0.95 0.01 175 / 0.12); border-radius: 16px; padding: 1.75rem; text-align: center; } .ds-hero-rating-number { font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-size: 3.5rem; font-weight: 800; line-height: 1; color: oklch(0.98 0.005 175); } .ds-hero-rating-stars { color: oklch(0.72 0.15 80); font-size: 1.1rem; letter-spacing: 2px; margin: 0.4rem 0; } .ds-hero-rating-label { font-size: 0.8rem; color: oklch(0.90 0.01 175); opacity: 0.6; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Copper Wire",
+    "overview": "A design system rooted in what the shop sells. Copper is warm, conductive, essential. Every element serves a purpose, just like every wire in a well-built circuit. The system trades decoration for trust: a 4.9 rating and a clear phone number beat any animation.\n\nThe palette splits between two worlds. Deep Shop Teal wraps the hero and contact sections in the authority of a well-run establishment. Warm Cream fills the product and content sections with the approachability of a well-lit showroom. Sitamarhi Gold threads through as the conductive accent, the color of action, appearing only on CTAs, stars, and badges where it means \"call this number\" or \"this is trustworthy.\"\n\nThe system is bilingual by nature, not by afterthought. Bricolage Grotesque carries English headlines with shopfront confidence. Mukta renders Hindi with equal weight and natural cadence. Neither is decorative. Both are load-bearing.",
+    "keyCharacteristics": [
+      "Pill-shaped buttons you want to press, cards that lift on hover",
+      "Flat surfaces at rest, shadows only on interaction",
+      "Two-tone structure: dark hero/contact bookending light content sections",
+      "Touch targets at 44px minimum, high contrast for outdoor phone screens",
+      "Motion that respects slow connections and budget devices"
+    ],
+    "rules": [
+      { "name": "The Conductor Rule", "body": "Sitamarhi Gold is the accent. It appears on CTAs, star ratings, and trust signals. If it shows up on more than 10% of a light surface, the system has lost its restraint.", "section": "colors" },
+      { "name": "The Warm Neutral Rule", "body": "Every neutral tints toward hue 80 (warm amber axis) or hue 55 (warm brown axis). No pure grays. A gray that could exist on any website has no place here.", "section": "colors" },
+      { "name": "The Bilingual Weight Rule", "body": "Hindi text always appears at the same or lower visual weight than its English counterpart. Hindi subtitles use lighter weight or reduced opacity (0.55 to 0.75). Never let Hindi visually overpower English in the same section.", "section": "typography" },
+      { "name": "The Scale Ratio Rule", "body": "Between any two consecutive type steps, the size ratio is at least 1.25. Flat type scales undermine the shopfront confidence.", "section": "typography" },
+      { "name": "The Earned Shadow Rule", "body": "Shadows are earned through interaction, not given by default. A resting card has no shadow. A hovered card earns one. If a shadow appears without a user action, it was free and therefore meaningless.", "section": "elevation" }
+    ],
+    "dos": [
+      "Keep Sitamarhi Gold to CTAs, stars, and trust signals. If it appears on more than 10% of a light surface, reduce.",
+      "Pair Hindi and English in every section. 'What We Offer / हमारे उत्पाद' is the pattern, not a separate Hindi section.",
+      "Use 44px minimum touch targets on every interactive element.",
+      "Respect prefers-reduced-motion. Fade-in animations become instant.",
+      "Tint every neutral toward hue 80 or hue 55. No pure grays.",
+      "Use OKLCH for all color definitions.",
+      "Cap body text at 65 to 75ch max-width."
+    ],
+    "donts": [
+      "Don't use purple gradients, glassmorphism, or SaaS landing-page cliches.",
+      "Don't use heavy animations or effects that slow down on budget phones.",
+      "Don't create English-only or Hindi-only sections.",
+      "Don't over-design in a way that feels foreign to Sitamarhi.",
+      "Don't use gradient text (background-clip: text).",
+      "Don't use border-left or border-right greater than 1px as a colored accent stripe.",
+      "Don't add shadows to resting state elements."
+    ]
+  }
+}
