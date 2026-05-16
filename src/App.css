@@ -1278,15 +1278,17 @@ body {
   box-shadow: 0 8px 32px oklch(0.45 0.15 145 / 0.4);
 }
 
-/* ===== CONTACT + FOOTER WRAPPER ===== */
+/* ===== FOOTER ===== */
 
-.contact-footer-wrapper {
+.footer {
   background: linear-gradient(165deg, oklch(0.32 0.07 178) 0%, var(--teal) 40%, oklch(0.18 0.04 172) 100%);
   position: relative;
   overflow: hidden;
+  padding: 2.5rem 2rem 3rem;
+  border-top: 1px solid oklch(0.96 0.01 175 / 0.15);
 }
 
-.contact-footer-wrapper::before {
+.footer::before {
   content: '';
   position: absolute;
   width: 500px;
@@ -1296,84 +1298,6 @@ body {
   bottom: -200px;
   right: -100px;
   pointer-events: none;
-}
-
-/* ===== CONTACT ===== */
-
-.contact {
-  padding: 5.5rem 2rem 3rem;
-  color: oklch(0.96 0.01 175);
-  position: relative;
-}
-
-.contact-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.contact .section-label {
-  color: oklch(0.96 0.01 175 / 0.45);
-}
-
-.contact .section-title {
-  color: oklch(0.98 0.005 175);
-}
-
-.contact .section-hindi {
-  color: oklch(0.96 0.01 175 / 0.45);
-}
-
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 3.5rem;
-  margin-top: 3rem;
-}
-
-.contact-block {
-  padding: 1.25rem 0;
-}
-
-.contact-block-icon {
-  margin-bottom: 0.6rem;
-  opacity: 0.45;
-}
-
-.contact-block-icon svg {
-  width: 22px;
-  height: 22px;
-}
-
-.contact-block-value {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.15rem;
-  margin-bottom: 0.25rem;
-}
-
-.contact-block-value a {
-  color: oklch(0.96 0.01 175);
-  text-decoration: none;
-  transition: all 0.25s var(--ease-out);
-}
-
-.contact-block-value a:hover {
-  color: var(--gold);
-}
-
-.contact-block-label {
-  font-size: 0.8rem;
-  opacity: 0.45;
-}
-
-/* ===== FOOTER ===== */
-
-.footer {
-  background: transparent;
-  padding: 2.5rem 2rem 3rem;
-  border-top: 1px solid oklch(0.96 0.01 175 / 0.15);
 }
 
 .footer-inner {
@@ -1580,11 +1504,6 @@ body {
     height: 300px;
   }
 
-  .contact-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
   .footer-grid {
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
@@ -1780,10 +1699,6 @@ body {
   }
 
   .about {
-    padding: 4rem 1.35rem;
-  }
-
-  .contact {
     padding: 4rem 1.35rem;
   }
 

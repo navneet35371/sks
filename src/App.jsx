@@ -828,45 +828,6 @@ function About() {
   )
 }
 
-function Contact() {
-  const contactItems = [
-    { icon: <PhoneIcon />, value: <a href={PHONE_HREF}>{PHONE}</a>, label: 'Phone / फ़ोन' },
-    { icon: <MapPinIcon />, value: <a href={DIRECTIONS_URL} target="_blank" rel="noopener noreferrer">Gaushala Road, Ring Bandh Rd, Chakmahila, Sitamarhi</a>, label: 'Bihar 843302 / सीतामढ़ी, बिहार' },
-    { icon: <ClockIcon />, value: '10 AM to 8 PM', label: 'Open 7 days / सोम से रवि' },
-  ]
-  
-  return (
-    <section className="contact" id="contact" aria-labelledby="contact-title">
-      <div className="contact-inner">
-        <MotionDiv>
-          <p className="section-label">Get In Touch / संपर्क करें</p>
-          <h2 className="section-title" id="contact-title">Contact Us</h2>
-          <p className="section-hindi" lang="hi">फ़ोन करें या स्टोर आएं</p>
-        </MotionDiv>
-        <motion.div 
-          className="contact-grid"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={staggerContainer}
-        >
-          {contactItems.map((item, i) => (
-            <motion.div 
-              key={i} 
-              className="contact-block"
-              variants={fadeUp}
-              transition={{ duration: 0.4 }}
-            >
-              <div className="contact-block-icon">{item.icon}</div>
-              <div className="contact-block-value">{item.value}</div>
-              <div className="contact-block-label">{item.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  )
-}
 
 function Footer() {
   const navLinks = [
@@ -887,7 +848,7 @@ function Footer() {
               <span className="footer-logo-text">S. K. Electronics</span>
               <span className="footer-logo-hindi" lang="hi">एस. के. इलेक्ट्रॉनिक्स</span>
             </div>
-            <p className="footer-tagline">Sitamarhi&apos;s trusted wholesale electrical distributor since 2005.</p>
+            <p className="footer-tagline">Sitamarhi&apos;s trusted wholesale electrical distributor since 2017.</p>
           </div>
           
           <nav className="footer-col footer-col-nav" aria-label="Footer navigation">
@@ -990,10 +951,7 @@ function App() {
         <Reviews />
         <About />
       </main>
-      <div className="contact-footer-wrapper">
-        <Contact />
-        <Footer />
-      </div>
+      <Footer />
       <FloatingCTA />
       <Analytics />
       <SpeedInsights />
