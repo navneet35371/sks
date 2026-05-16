@@ -1595,7 +1595,7 @@ body {
   }
 
   .hero-bg-logos {
-    display: none;
+    opacity: 0.15;
   }
 
   .hero-inner {
