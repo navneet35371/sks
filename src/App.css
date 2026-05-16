@@ -1377,19 +1377,42 @@ body {
 }
 
 .footer-inner {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 2rem;
 }
 
-.footer-brand {
-  text-align: center;
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 1.4fr;
+  gap: 3rem;
 }
 
-.footer-name {
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.footer-col-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: oklch(0.96 0.01 175 / 0.65);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.25rem;
+}
+
+.footer-logo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.footer-logo-text {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 1.35rem;
@@ -1400,93 +1423,79 @@ body {
   letter-spacing: -0.02em;
 }
 
-.footer-hindi {
+.footer-logo-hindi {
   font-family: var(--font-body);
   font-size: 0.9rem;
-  color: oklch(0.96 0.01 175 / 0.6);
-  margin-top: 0.3rem;
+  color: oklch(0.96 0.01 175 / 0.5);
 }
 
-.footer-contact {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.footer-phone {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--cream);
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.1rem;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  background: oklch(0.96 0.01 175 / 0.08);
-  border: 1px solid oklch(0.96 0.01 175 / 0.12);
-  transition: all 0.25s var(--ease-out);
-  min-height: 44px;
-}
-
-.footer-phone svg {
-  width: 18px;
-  height: 18px;
-  color: var(--gold);
-}
-
-.footer-phone:hover {
-  background: oklch(0.96 0.01 175 / 0.15);
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
-.footer-phone:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 3px;
-  border-radius: 8px;
-}
-
-.footer-address {
-  font-family: var(--font-body);
-  font-style: normal;
-  font-size: 0.9rem;
-  color: oklch(0.96 0.01 175 / 0.65);
-  text-align: center;
-  max-width: 380px;
+.footer-tagline {
+  font-size: 0.88rem;
+  color: oklch(0.96 0.01 175 / 0.5);
   line-height: 1.6;
+  max-width: 36ch;
 }
 
-.footer-links ul {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+.footer-nav-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
-.footer-links a {
-  color: oklch(0.92 0.01 175 / 0.45);
-  font-size: 0.8rem;
+.footer-nav-link {
+  color: oklch(0.92 0.01 175 / 0.55);
+  font-size: 0.88rem;
+  text-decoration: none;
   transition: color 0.25s var(--ease-out);
-  min-height: 44px;
+  min-height: 36px;
   display: flex;
   align-items: center;
-  text-decoration: none;
 }
 
-.footer-links a:hover {
-  color: oklch(0.92 0.01 175 / 0.85);
+.footer-nav-link:hover {
+  color: oklch(0.92 0.01 175 / 0.9);
 }
 
-.footer-links a:focus-visible {
-  outline: 2px solid oklch(0.92 0.01 175 / 0.6);
-  outline-offset: 3px;
+.footer-nav-link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
   border-radius: 4px;
+}
+
+.footer-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  color: oklch(0.96 0.01 175 / 0.65);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: color 0.25s var(--ease-out);
+}
+
+.footer-contact-item:hover {
+  color: oklch(0.96 0.01 175);
+}
+
+.footer-contact-item svg {
+  width: 16px;
+  height: 16px;
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.footer-address-item {
+  font-style: normal;
 }
 
 .footer-bottom {
@@ -1502,12 +1511,6 @@ body {
 .footer-copy {
   font-size: 0.74rem;
   color: oklch(0.92 0.01 175 / 0.3);
-}
-
-.footer-hours {
-  font-size: 0.72rem;
-  color: oklch(0.92 0.01 175 / 0.35);
-  margin: 0;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -1580,6 +1583,15 @@ body {
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .footer-col-brand {
+    grid-column: 1 / -1;
   }
 
   .reviews-grid {
@@ -1779,12 +1791,13 @@ body {
     padding: 3rem 1.35rem 2rem;
   }
 
-  .footer-inner {
-    gap: 1.5rem;
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
-  .footer-links ul {
-    gap: 0.85rem;
+  .footer-inner {
+    gap: 1.5rem;
   }
 
   .hero-actions {
@@ -1826,15 +1839,11 @@ body {
     padding: 2.5rem 1.15rem 1.75rem;
   }
 
+  .footer-grid {
+    gap: 1.5rem;
+  }
+
   .footer-inner {
     gap: 1.25rem;
-  }
-
-  .footer-links ul {
-    gap: 0.6rem;
-  }
-
-  .footer-links a {
-    font-size: 0.74rem;
   }
 }
